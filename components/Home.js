@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { Card } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,18 +20,17 @@ export function Home() {
         activeDotStyle={{ backgroundColor: '#FF8100' }}
         style={styles.swiper}>
         <View style={styles.slides}>
+          <Image
+            source={require('../assets/mandala.png')}
+            style={styles.image}
+          />
           <Text style={styles.title}>Hello there!</Text>
           <Text style={styles.subtitle}>
             Swipe to see how you are practicing gratitude in your life.
           </Text>
-          <Text style={styles.quote}>
-            “The happiness of this life depends less on what befalls you than
-            the way in which you take it.”
-          </Text>
-          <Text style={styles.author}>-- Elbert Hubbard</Text>
         </View>
         <View style={styles.slides}>
-          <Text style={styles.title}>Daily Reprieve</Text>
+          <Text style={styles.cardTitle}>Daily Reprieve</Text>
           <Card containerStyle={styles.cardLight}>
             <Text style={styles.lightCounterText}>
               You have recorded your gratitude every day for{' '}
@@ -40,7 +39,7 @@ export function Home() {
           </Card>
         </View>
         <View style={styles.slides}>
-          <Text style={styles.title}>Total Logs</Text>
+          <Text style={styles.cardTitle}>Total Logs</Text>
           <Card containerStyle={styles.cardLight}>
             <Text style={styles.lightCounterText}>
               You have logged what you are grateful for
@@ -54,6 +53,10 @@ export function Home() {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    height: 200,
+    width: 200,
+  },
   outerContainer: {
     flex: 1,
     padding: 24,
@@ -66,6 +69,14 @@ const styles = StyleSheet.create({
     color: '#FF8100',
     fontWeight: '300',
   },
+  cardTitle: {
+    padding: 24,
+    paddingHorizontal: 24,
+    textAlign: 'center',
+    fontSize: 36,
+    color: 'darkgray',
+    fontWeight: '300',
+  },
   subtitle: {
     fontSize: 24,
     padding: 40,
@@ -73,23 +84,6 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     fontStyle: 'italic',
     color: 'darkgray',
-  },
-  quote: {
-    color: '#FF8100',
-    fontWeight: '500',
-    fontStyle: 'italic',
-    paddingTop: 24,
-    paddingHorizontal: 24,
-    fontSize: 18,
-    marginTop: 40,
-  },
-  author: {
-    color: '#FF8100',
-    fontWeight: '500',
-    fontStyle: 'italic',
-    fontSize: 18,
-    paddingHorizontal: 24,
-    marginBottom: 70,
   },
   background: {
     backgroundColor: 'white',
