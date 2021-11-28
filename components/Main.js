@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Home from './Home';
 import NewEntry from './NewEntry';
 import PreviousEntries from './PreviousEntries';
+import Login from './Login';
+import Signup from './Signup';
+import Settings from './Settings';
 import {
   createDrawerNavigator,
   DrawerItemList,
 } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 function Main() {
+
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -41,7 +48,38 @@ function Main() {
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="New Entry" component={NewEntry} />
       <Drawer.Screen name="My Entries" component={PreviousEntries} />
+      <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
+  );
+}
+
+function MainNavigation() {
+
+  const signedIn = useSelector(state => state.user.signedIn); // Redux example
+
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      {signedIn ? (
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{ headerShown: false }}
+        />
+      ) : (
+        <>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Sign Up"
+            component={Signup}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
+    </Stack.Navigator>
   );
 }
 
@@ -64,4 +102,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Main;
+export default MainNavigation;

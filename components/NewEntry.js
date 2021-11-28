@@ -8,6 +8,9 @@ import {
   Button,
 } from 'react-native';
 import AnimatedMultistep from 'react-native-animated-multistep';
+import { createUser } from '../redux/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+
 
 // WHERE I LEFT OFF:
 // 1. Add steps as separate components (each question is a different step)
@@ -15,6 +18,9 @@ import AnimatedMultistep from 'react-native-animated-multistep';
 // Readme: https://github.com/samad324/react-native-animated-multistep#readme
 
 export function NewEntry() {
+
+  const dispatch = useDispatch();
+  const signedIn = useSelector(state => state.user.signedIn);
 
   // Questions to add:
   // What goals am I working toward today?
@@ -36,7 +42,7 @@ export function NewEntry() {
       />
       <Text style={styles.question}>Have I taken time to meditate today?</Text>
       <View>
-        <Button title="Submit" color="#FF8100" />
+        <Button title="Submit" color="#FF8100" onPress={() => console.log(signedIn)} />
       </View>
     </ScrollView>
   );

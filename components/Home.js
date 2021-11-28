@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { Card } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment } from '../redux/counterSlice'; // Redux example
+import { decrement, increment } from '../redux/userSlice'; // Redux example
 
 
 export function Home() {
-  const count = useSelector(state => state.counter.value); // Redux example
+  // const count = useSelector(state => state.counter.value); // Redux example
   const dispatch = useDispatch(); // Redux example
 
   // Example of how to dispatch an action:

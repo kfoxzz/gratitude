@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { registerRootComponent } from 'expo';
+
 import React from 'react';
 import Main from './components/Main';
 import { NavigationContainer } from '@react-navigation/native';
@@ -15,5 +15,3 @@ export default function App() {
     </Provider>
   );
 }
-
-registerRootComponent(App);
