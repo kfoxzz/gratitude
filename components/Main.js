@@ -5,6 +5,12 @@ import PreviousEntries from './PreviousEntries';
 import Login from './Login';
 import Signup from './Signup';
 import Settings from './Settings';
+import Step1 from './formSteps/Step1';
+import Step2 from './formSteps/Step2';
+import Step3 from './formSteps/Step3';
+import Step4 from './formSteps/Step4';
+import Step5 from './formSteps/Step5';
+import Step6 from './formSteps/Step6';
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -46,7 +52,7 @@ function Main() {
         );
       }}>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="New Entry" component={NewEntry} />
+      <Drawer.Screen name="New Entry" component={NewEntryNavigation} />
       <Drawer.Screen name="My Entries" component={PreviousEntries} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
@@ -79,6 +85,43 @@ function MainNavigation() {
           />
         </>
       )}
+    </Stack.Navigator>
+  );
+}
+
+function NewEntryNavigation() {
+  return (
+    <Stack.Navigator initialRouteName="Step 1">
+      <Stack.Screen
+        name="Step 1"
+        component={Step1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Step 2"
+        component={Step2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Step 3"
+        component={Step3}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Step 4"
+        component={Step4}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Step 5"
+        component={Step5}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Step 6"
+        component={Step6}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

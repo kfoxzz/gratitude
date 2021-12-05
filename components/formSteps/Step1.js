@@ -6,14 +6,11 @@ import {
   ScrollView,
   TextInput,
   Button,
+  KeyboardAvoidingView,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 
-export function NewEntry() {
-  const dispatch = useDispatch();
-  const signedIn = useSelector(state => state.user.signedIn);
+function Step1(props) {
 
-  /* render MultiStep */
   return (
     <ScrollView style={styles.background}>
       <Text style={styles.question}>I am grateful for...</Text>
@@ -24,9 +21,9 @@ export function NewEntry() {
       />
       <View>
         <Button
-          title="Submit"
+          title="Next"
           color="#FF8100"
-          onPress={() => console.log(signedIn)}
+          onPress={() => props.navigation.navigate('Step 2')}
         />
       </View>
     </ScrollView>
@@ -48,10 +45,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderWidth: 1,
     padding: 10,
+    paddingTop: 11,
     borderRadius: 6,
     borderColor: 'lightgray',
     fontSize: 18,
   },
 });
 
-export default NewEntry;
+export default Step1;

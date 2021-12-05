@@ -17,7 +17,7 @@ function Signup(props) {
     const resetForm = () => {
       setName('');
       setEmail('');
-      setPhone('');
+      // setPhone('');
       setPassword('');
     }
 
@@ -25,7 +25,7 @@ function Signup(props) {
       const userData = {
         name,
         email,
-        phone,
+        // phone,
         password
       };
       dispatch(createUser(userData));
@@ -56,13 +56,13 @@ function Signup(props) {
             onChangeText={setEmail}
             style={styles.textInput}
           />
-          <Text style={styles.inputTitle}>Phone</Text>
-          <Input
+          {/* <Text style={styles.inputTitle}>Phone</Text> */}
+          {/* <Input
             placeholder="Your phone number"
             value={phone}
             onChangeText={setPhone}
             style={styles.textInput}
-          />
+          /> */}
           <Text style={styles.inputTitle}>Password</Text>
           <Input
             placeholder="Password"

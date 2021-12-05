@@ -1,54 +1,64 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  StatusBar,
+} from 'react-native';
 import { Card } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 import { useSelector, useDispatch } from 'react-redux';
-import { decrement, increment } from '../redux/userSlice'; // Redux example
 
 
 export function Home() {
   // const count = useSelector(state => state.counter.value); // Redux example
   const dispatch = useDispatch(); // Redux example
+  const userName = useSelector(state => state.user.name);
 
   // Example of how to dispatch an action:
   // onClick={() => dispatch(increment())
 
   return (
-    <ScrollView style={styles.background}>
-      <Swiper
-        showsPagination={true}
-        activeDotStyle={{ backgroundColor: '#FF8100' }}
-        style={styles.swiper}>
-        <View style={styles.slides}>
-          <Image
-            source={require('../assets/mandala.png')}
-            style={styles.image}
-          />
-          <Text style={styles.title}>Hello there!</Text>
-          <Text style={styles.subtitle}>
-            Swipe to see how you are practicing gratitude in your life.
-          </Text>
-        </View>
-        <View style={styles.slides}>
-          <Text style={styles.cardTitle}>Daily Reprieve</Text>
-          <Card containerStyle={styles.cardLight}>
-            <Text style={styles.lightCounterText}>
-              You have recorded your gratitude every day for{' '}
+    <>
+      <StatusBar  barStyle="dark-content" translucent={true} />
+      <ScrollView style={styles.background}>
+        <Swiper
+          showsPagination={true}
+          activeDotStyle={{ backgroundColor: '#FF8100' }}
+          style={styles.swiper}>
+          <View style={styles.slides}>
+            <Image
+              source={require('../assets/mandala.png')}
+              style={styles.image}
+            />
+            <Text style={styles.title}>Hello {userName}!</Text>
+            <Text style={styles.subtitle}>
+              Swipe to see how you are practicing gratitude in your life.
             </Text>
-            <Text style={styles.lightCounter}>10 days</Text>
-          </Card>
-        </View>
-        <View style={styles.slides}>
-          <Text style={styles.cardTitle}>Total Logs</Text>
-          <Card containerStyle={styles.cardLight}>
-            <Text style={styles.lightCounterText}>
-              You have logged what you are grateful for
-            </Text>
-            <Text style={styles.lightCounter}>10 times</Text>
-          </Card>
-        </View>
-      </Swiper>
-    </ScrollView>
+          </View>
+          <View style={styles.slides}>
+            <Text style={styles.cardTitle}>Daily Reprieve</Text>
+            <Card containerStyle={styles.cardLight}>
+              <Text style={styles.lightCounterText}>
+                You have recorded your gratitude every day for{' '}
+              </Text>
+              <Text style={styles.lightCounter}>10 days</Text>
+            </Card>
+          </View>
+          <View style={styles.slides}>
+            <Text style={styles.cardTitle}>Total Logs</Text>
+            <Card containerStyle={styles.cardLight}>
+              <Text style={styles.lightCounterText}>
+                You have logged what you are grateful for
+              </Text>
+              <Text style={styles.lightCounter}>10 times</Text>
+            </Card>
+          </View>
+        </Swiper>
+      </ScrollView>
+    </>
   );
 }
 

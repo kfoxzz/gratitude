@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, KeyboardAvoidingView, StatusBar } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { signInUser } from '../redux/userSlice';
 
@@ -27,6 +27,7 @@ function Login(props) {
           justifyContent: 'center',
           backgroundColor: 'white',
         }}>
+        <StatusBar barStyle="dark-content" translucent={true} />
         <Image source={require('../assets/mandala.png')} style={styles.image} />
         <Text style={styles.title}>Sign In</Text>
         <TextInput

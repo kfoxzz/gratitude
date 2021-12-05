@@ -5,8 +5,9 @@ export const createUser = createAsyncThunk(
   'user/create',
   async (userData, thunkAPI) => {
     try {
-      await createUserAPI(userData);
-      return userData;
+      const userDetails = await createUserAPI(userData);
+      return userDetails;
+      // thunkAPI.dispatch(someAction()) to call existing action in reducer
     } catch (error) {
       console.log(error.message);
     }
@@ -17,8 +18,8 @@ export const signInUser = createAsyncThunk(
   'user/login',
   async (credentials, thunkAPI) => {
     try {
-      await signInUserAPI(credentials);
-      return credentials;
+      const userDetails = await signInUserAPI(credentials);
+      return userDetails;
     } catch (error) {
       console.log(error.message);
     }
@@ -28,10 +29,14 @@ export const signInUser = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    name: '',
-    email: '',
-    phone: '',
-    signedIn: false
+    user: {
+      email: '',
+      name: '',
+      signedIn: false,
+      consecutiveEntries: '',
+      totalEntries: ''
+    },
+    entries: []
   },
   reducers: {
     updateName: (state, action) => {
@@ -55,11 +60,11 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, { payload }) => {
         state.name = payload.name;
         state.email = payload.email;
-        state.phone = payload.phone;
         state.signedIn = true;
       })
       .addCase(signInUser.fulfilled, (state, { payload }) => {
         state.email = payload.email;
+        state.name = payload.name;
         state.signedIn = true;
       })
     }
