@@ -13,7 +13,8 @@ function Step2(props) {
     const [noButton, setNoButton] = useState(styles.buttonNotSelected);
     const [yesText, setYesText] = useState(styles.textNotSelected);
     const [noText, setNoText] = useState(styles.textNotSelected);
-    const [value, setValue] = useState(false);
+    const [value, setValue] = useState('none');
+    const [error, setError] = useState('');
 
     const setSelectedState = (selected, setButtonState, setTextState) => {
         if (selected) {
@@ -38,11 +39,16 @@ function Step2(props) {
     };
 
     const handleSubmit = () => {
-      props.updateEntry({
-        ...props.newEntry,
-        meditation: value,
-      });
-      props.navigation.navigate('Step 3');
+      if (value == 'none') {
+        setError('Required field.');
+      } else {
+        props.updateEntry({
+          ...props.newEntry,
+          meditation: value,
+        });
+        props.navigation.navigate('Step 3');
+        setError('');
+      }
     }
 
   return (
@@ -62,12 +68,13 @@ function Step2(props) {
           <Text style={noText}>No</Text>
         </View>
       </TouchableOpacity>
+      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
       <View style={styles.navigationButtons}>
-        <Button
-          title="Next"
-          color="#FF8100"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
         <Button
           title="Back"
           color="#FF8100"
@@ -82,7 +89,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: 'white',
     height: '100%',
-    flex: 1
+    flex: 1,
   },
   question: {
     fontSize: 32,
@@ -118,7 +125,20 @@ const styles = StyleSheet.create({
   },
   navigationButtons: {
     flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+  },
+  button: {
+    backgroundColor: '#FF8100',
+    borderColor: '#FF8100',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white',
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,28 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
+  TouchableOpacity
 } from 'react-native';
 
 function Step1(props) {
 
   const [gratitudeList, setGratitudeList] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (props.newEntry.gratitudeList) {
+      setGratitudeList(props.newEntry.gratitudeList)
+    }
+  });
 
   const handleSubmit = () => {
-    props.updateEntry({...props.newEntry, gratitudeList: gratitudeList});
-    props.navigation.navigate('Step 2')
+    if (gratitudeList) {
+      props.updateEntry({...props.newEntry, gratitudeList: gratitudeList});
+      setError('');
+      props.navigation.navigate('Step 2')
+    } else {
+      setError('Required field.')
+    }
   }
 
   return (
@@ -25,15 +38,16 @@ function Step1(props) {
         style={styles.input}
         multiline
         placeholder="List 10 things you are grateful for."
-        onChangeText={(text) => setGratitudeList(text)}
+        onChangeText={text => setGratitudeList(text)}
         value={gratitudeList}
       />
+      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
       <View>
-        <Button
-          title="Next"
-          color="#FF8100"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -58,6 +72,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: 'lightgray',
     fontSize: 18,
+  },
+  button: {
+    backgroundColor: '#FF8100',
+    borderColor: '#FF8100',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white',
   },
 });
 

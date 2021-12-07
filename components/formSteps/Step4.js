@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,21 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity
 } from 'react-native';
 
 function Step4(props) {
   const [selflove, setSelflove] = useState('');
   const [action, setAction] = useState('');
+
+  useEffect(() => {
+    if (props.newEntry.selflove) {
+      setSelflove(props.newEntry.selflove);
+    }
+    if (props.newEntry.selfloveAction) {
+      setAction(props.newEntry.selfloveAction);
+    }
+  });
 
   const handleSubmit = () => {
     props.updateEntry({...props.newEntry, selflove: selflove, selfloveAction: action});
@@ -29,38 +39,38 @@ function Step4(props) {
           flexDirection: 'column',
           backgroundColor: 'white',
         }}>
-          <ScrollView>
-            <Text style={styles.question}>I love myself because...</Text>
-            <TextInput
-              style={styles.input}
-              multiline
-              placeholder="List at least 3 things you love about yourself."
-              onChangeText={text => setSelflove(text)}
-              value={selflove}
+        <ScrollView>
+          <Text style={styles.question}>I love myself because...</Text>
+          <TextInput
+            style={styles.input}
+            multiline
+            placeholder="List at least 3 things you love about yourself."
+            onChangeText={text => setSelflove(text)}
+            value={selflove}
+          />
+          <Text style={styles.question}>
+            What can I do to show self-love today?
+          </Text>
+          <TextInput
+            style={styles.input}
+            multiline
+            placeholder="How can I love myself?"
+            onChangeText={text => setAction(text)}
+            value={action}
+          />
+          <View>
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Next</Text>
+              </View>
+            </TouchableOpacity>
+            <Button
+              title="Back"
+              color="#FF8100"
+              onPress={() => props.navigation.navigate('Step 3')}
             />
-            <Text style={styles.question}>
-              What can I do to show self-love today?
-            </Text>
-            <TextInput
-              style={styles.input}
-              multiline
-              placeholder="How can I love myself?"
-              onChangeText={text => setAction(text)}
-              value={action}
-            />
-            <View>
-              <Button
-                title="Next"
-                color="#FF8100"
-                onPress={handleSubmit}
-              />
-              <Button
-                title="Back"
-                color="#FF8100"
-                onPress={() => props.navigation.navigate('Step 3')}
-              />
-            </View>
-          </ScrollView>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -85,6 +95,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: 'lightgray',
     fontSize: 18,
+  },
+  button: {
+    backgroundColor: '#FF8100',
+    borderColor: '#FF8100',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white',
   },
 });
 

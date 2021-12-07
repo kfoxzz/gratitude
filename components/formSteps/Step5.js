@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,21 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
+  TouchableOpacity
 } from 'react-native';
 
 function Step5(props) {
   const [loveAboutPeople, setLoveAboutPeople] = useState('');
   const [helpOthers, setHelpOthers] = useState('');
+
+  useEffect(() => {
+    if (props.newEntry.loveAboutPeople) {
+      setLoveAboutPeople(props.newEntry.loveAboutPeople);
+    }
+    if (props.newEntry.helpOthers) {
+      setHelpOthers(props.newEntry.helpOthers);
+    }
+  });
 
   const handleSubmit = () => {
     props.updateEntry({ ...props.newEntry, loveAboutPeople: loveAboutPeople, helpOthers: helpOthers});
@@ -41,11 +51,11 @@ function Step5(props) {
         value={helpOthers}
       />
       <View>
-        <Button
-          title="Next"
-          color="#FF8100"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
         <Button
           title="Back"
           color="#FF8100"
@@ -75,6 +85,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: 'lightgray',
     fontSize: 18,
+  },
+  button: {
+    backgroundColor: '#FF8100',
+    borderColor: '#FF8100',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'white',
   },
 });
 
