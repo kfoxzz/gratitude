@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
 import 'firebase/auth';
 import Constants from 'expo-constants';
+import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 const firebaseConfig = {

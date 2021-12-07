@@ -12,6 +12,11 @@ import {
 function Step3(props) {
     const [goals, setGoals] = useState('');
 
+  const handleSubmit = () => {
+    props.updateEntry({...props.newEntry, goals: goals});
+    props.navigation.navigate('Step 4');
+  }
+
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -33,7 +38,7 @@ function Step3(props) {
         <Button
           title="Next"
           color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 4')}
+          onPress={handleSubmit}
         />
         <Button
           title="Back"

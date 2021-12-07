@@ -11,6 +11,13 @@ import {
 
 function Step1(props) {
 
+  const [gratitudeList, setGratitudeList] = useState('');
+
+  const handleSubmit = () => {
+    props.updateEntry({...props.newEntry, gratitudeList: gratitudeList});
+    props.navigation.navigate('Step 2')
+  }
+
   return (
     <ScrollView style={styles.background}>
       <Text style={styles.question}>I am grateful for...</Text>
@@ -18,12 +25,14 @@ function Step1(props) {
         style={styles.input}
         multiline
         placeholder="List 10 things you are grateful for."
+        onChangeText={(text) => setGratitudeList(text)}
+        value={gratitudeList}
       />
       <View>
         <Button
           title="Next"
           color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 2')}
+          onPress={handleSubmit}
         />
       </View>
     </ScrollView>

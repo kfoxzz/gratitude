@@ -1,4 +1,3 @@
-import { getDatabase, ref, set, add } from 'firebase/database';
 import './firebase';
 import {
   getAuth,
@@ -7,10 +6,14 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
+import FireStoreParser from 'firestore-parser';
+import { getFirestore } from 'firebase/firestore';
+import { collection, setDoc, doc, query, where, getDocs } from 'firebase/firestore'; 
 
 const auth = getAuth();
 
-const database = getDatabase();
+const database = getFirestore();
+
 
 // onAuthStateChanged(auth, user => {
 //   if (user) {
@@ -24,26 +27,40 @@ const database = getDatabase();
 //   }
 // });
 
+// export const writeUserData = async (name, email, uid) => {
+//   const newUser = ref(database, `users/${uid}`);
+//   try {
+//     set(newUser, {
+//     name,
+//     email,
+//   })} catch(err) {
+//     console.log(err.message);
+//   }
+// }
+
 export const writeUserData = async (name, email, uid) => {
-  const newUser = ref(database, `users/${uid}`);
   try {
-    set(newUser, {
-    name,
-    email,
-  })} catch(err) {
-    console.log(err.message);
+    const docRef = await setDoc(doc(database, 'users', uid), {
+      name,
+      email
+    });
+    return docRef;
+  } catch (e) {
+    console.error('Error adding document: ', e);
   }
 }
+
 
 export const createUserAPI = async ({ name, email, password }) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     await setDisplayName(name);
-    await writeUserData(name, email, auth.currentUser.uid);
+    await writeUserData(name, email, user.uid);
     return {
-      email: auth.currentUser.email,
-      name: auth.currentUser.displayName
+      email: user.email,
+      name: user.displayName,
+      uid: user.uid
     };
   } catch (error) {
     const errorCode = error.code;
@@ -58,10 +75,11 @@ export const signInUserAPI = async({ email, password }) => {
     const user = auth.currentUser;
     return {
       email: user.email,
-      name: user.displayName
+      name: user.displayName,
+      uid: user.uid,
     };
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.message)
   }
 }
 
@@ -75,3 +93,52 @@ export const setDisplayName = async (displayName) => {
     throw new Error(error.message);
   }
 }
+
+export const addEntryAPI = async ({
+    gratitudeList,
+    meditation,
+    goals,
+    selflove,
+    selfloveAction,
+    loveAboutPeople,
+    helpOthers,
+    lookingForwardTo,
+    date,
+    id,
+    uid,
+  }) => {
+  try {
+    const docRef = await setDoc(doc(database, 'entries', id), {
+      gratitudeList,
+      meditation,
+      goals,
+      selflove,
+      selfloveAction,
+      loveAboutPeople,
+      helpOthers,
+      lookingForwardTo,
+      date,
+      id,
+      uid,
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+// update to firestore
+export const fetchEntriesAPI = async (uid) => {
+  if (!uid) return;
+  try {
+    let entries = [];
+    const q = query(collection(database, 'entries'), where('uid', '==', uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(doc => {
+      // doc.data() is never undefined for query doc snapshots
+      entries.push(doc.data());
+    });
+    return entries;
+  } catch(error) {
+    console.log(error.message);
+  }
+} 

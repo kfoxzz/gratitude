@@ -6,7 +6,7 @@ import { signOut } from '../redux/userSlice';
 function Settings(props) {
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user.user);
 
     return (
       <ScrollView style={{ backgroundColor: 'white' }}>
@@ -14,6 +14,8 @@ function Settings(props) {
           <Text style={styles.title}>Account Details</Text>
           <Text style={styles.subtitle}>Name</Text>
           <Text style={styles.info}>{user.name}</Text>
+          <Text style={styles.subtitle}>User ID</Text>
+          <Text style={styles.info}>{user.uid}</Text>
           <Text style={styles.subtitle}>Email</Text>
           <Text style={styles.info}>{user.email}</Text>
         </View>

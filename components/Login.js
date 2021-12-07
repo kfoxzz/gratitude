@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, KeyboardAvoidingView, StatusBar } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../redux/userSlice';
+
+function LoginError(props) {
+      const loginError = useSelector(state => state.user.user.loginError);
+
+      if (loginError) {
+        return (
+          <View>
+            <Text style={{ color: 'red', paddingHorizontal: 20 }}>{loginError}</Text>
+          </View>
+        )
+      } else {
+        return (
+          <View></View>
+        )
+      }
+}
 
 
 function Login(props) {
@@ -43,6 +59,7 @@ function Login(props) {
           secureTextEntry
           style={styles.textInput}
         />
+        <LoginError />
         <TouchableOpacity onPress={() => signIn()}>
           <View style={styles.signIn}>
             <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>

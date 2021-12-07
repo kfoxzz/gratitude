@@ -15,6 +15,11 @@ function Step4(props) {
   const [selflove, setSelflove] = useState('');
   const [action, setAction] = useState('');
 
+  const handleSubmit = () => {
+    props.updateEntry({...props.newEntry, selflove: selflove, selfloveAction: action});
+    props.navigation.navigate('Step 5');
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAvoidingView
@@ -47,7 +52,7 @@ function Step4(props) {
               <Button
                 title="Next"
                 color="#FF8100"
-                onPress={() => props.navigation.navigate('Step 5')}
+                onPress={handleSubmit}
               />
               <Button
                 title="Back"

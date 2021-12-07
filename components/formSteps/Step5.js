@@ -11,7 +11,12 @@ import {
 
 function Step5(props) {
   const [loveAboutPeople, setLoveAboutPeople] = useState('');
-    const [helpOthers, setHelpOthers] = useState('');
+  const [helpOthers, setHelpOthers] = useState('');
+
+  const handleSubmit = () => {
+    props.updateEntry({ ...props.newEntry, loveAboutPeople: loveAboutPeople, helpOthers: helpOthers});
+    props.navigation.navigate('Step 6');
+  }
 
   return (
     <ScrollView style={styles.background}>
@@ -39,7 +44,7 @@ function Step5(props) {
         <Button
           title="Next"
           color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 6')}
+          onPress={handleSubmit}
         />
         <Button
           title="Back"

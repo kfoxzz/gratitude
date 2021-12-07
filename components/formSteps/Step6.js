@@ -9,9 +9,23 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 function Step6(props) {
   const [lookingForwardTo, setLookingForwardTo] = useState('');
+  const userId = useSelector(state => state.user.user.uid);
+
+  const handleSubmit = () => {
+    props.updateEntry({
+      ...props.newEntry,
+      lookingForwardTo: lookingForwardTo,
+      date: new Date().toLocaleDateString('en-US'),
+      id: uuidv4(),
+      uid: userId
+    });
+    props.navigation.navigate('Submit Form');
+  };
 
   return (
     <ScrollView style={styles.background}>
@@ -24,9 +38,9 @@ function Step6(props) {
         value={lookingForwardTo}
       />
       <View>
-        <TouchableOpacity onPress={() => console.log('Submit')}>
+        <TouchableOpacity onPress={handleSubmit}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>Next</Text>
           </View>
         </TouchableOpacity>
         <Button

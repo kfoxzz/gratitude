@@ -13,7 +13,7 @@ function Step2(props) {
     const [noButton, setNoButton] = useState(styles.buttonNotSelected);
     const [yesText, setYesText] = useState(styles.textNotSelected);
     const [noText, setNoText] = useState(styles.textNotSelected);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState(false);
 
     const setSelectedState = (selected, setButtonState, setTextState) => {
         if (selected) {
@@ -37,6 +37,14 @@ function Step2(props) {
         setValue(false);
     };
 
+    const handleSubmit = () => {
+      props.updateEntry({
+        ...props.newEntry,
+        meditation: value,
+      });
+      props.navigation.navigate('Step 3');
+    }
+
   return (
     <ScrollView style={styles.background}>
       <Text style={styles.question}>Have I taken time to meditate today?</Text>
@@ -58,7 +66,7 @@ function Step2(props) {
         <Button
           title="Next"
           color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 3')}
+          onPress={handleSubmit}
         />
         <Button
           title="Back"
