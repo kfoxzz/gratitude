@@ -3,12 +3,10 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
-import FireStoreParser from 'firestore-parser';
 import { getFirestore } from 'firebase/firestore';
-import { collection, setDoc, doc, query, where, getDocs } from 'firebase/firestore'; 
+import { collection, setDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'; 
 
 const auth = getAuth();
 
@@ -126,7 +124,6 @@ export const addEntryAPI = async ({
   }
 };
 
-// update to firestore
 export const fetchEntriesAPI = async (uid) => {
   if (!uid) return;
   try {
@@ -142,3 +139,11 @@ export const fetchEntriesAPI = async (uid) => {
     console.log(error.message);
   }
 } 
+
+export const deleteEntryAPI = async (id) => {
+  try {
+    await deleteDoc(doc(database, "entries", id));
+  } catch(error) {
+    throw new Error(error.message);
+  }
+}

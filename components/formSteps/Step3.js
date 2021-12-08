@@ -17,7 +17,7 @@ function Step3(props) {
       if (props.newEntry.goals) {
         setGoals(props.newEntry.goals);
       }
-    });
+    }, []);
 
   const handleSubmit = () => {
     props.updateEntry({...props.newEntry, goals: goals});

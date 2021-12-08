@@ -20,7 +20,7 @@ function Step6(props) {
     if (props.newEntry.lookingForwardTo) {
       setLookingForwardTo(props.newEntry.lookingForwardTo);
     }
-  });
+  }, []);
 
   const handleSubmit = () => {
     props.updateEntry({

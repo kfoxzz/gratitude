@@ -23,7 +23,7 @@ function Step4(props) {
     if (props.newEntry.selfloveAction) {
       setAction(props.newEntry.selfloveAction);
     }
-  });
+  }, []);
 
   const handleSubmit = () => {
     props.updateEntry({...props.newEntry, selflove: selflove, selfloveAction: action});

@@ -21,7 +21,7 @@ function Step5(props) {
     if (props.newEntry.helpOthers) {
       setHelpOthers(props.newEntry.helpOthers);
     }
-  });
+  }, []);
 
   const handleSubmit = () => {
     props.updateEntry({ ...props.newEntry, loveAboutPeople: loveAboutPeople, helpOthers: helpOthers});

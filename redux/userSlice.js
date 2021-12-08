@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI } from '../config/users';
+import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI } from '../config/users';
 import { consecutiveDates } from '../components/helperFunctions/consecutiveEntries';
 
 export const createUser = createAsyncThunk(
@@ -43,12 +43,24 @@ export const addEntryAsync = createAsyncThunk(
   }
 )
 
+export const deleteEntryAsync = createAsyncThunk(
+  'entry/delete',
+  async (entryId, uid, thunkAPI) => {
+    try {
+      await deleteEntryAPI(entryId);
+      await thunkAPI.dispatch(fetchEntriesAsync(uid));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+)
+
 export const fetchEntriesAsync = createAsyncThunk(
   'entries/fetch',
   async (uid, thunkAPI) => {
     try {
       const entries = await fetchEntriesAPI(uid);
-      await thunkAPI.dispatch(userSlice.actions.addEntry(entries));
+      await thunkAPI.dispatch(userSlice.actions.addEntry(entries.reverse()));
     } catch (error) {
       console.log(error.message);
     }
@@ -60,6 +72,7 @@ export const calculateConsecutiveEntries = createAsyncThunk(
   async (dateArray, thunkAPI) => {
     try {
       const entries = await consecutiveDates(dateArray);
+      console.log(entries);
       thunkAPI.dispatch(userSlice.actions.consecutiveEntries(entries));
     } catch(error) {
       console.log('Error:', error.message)

@@ -12,6 +12,7 @@ import Step5 from './formSteps/Step5';
 import Step6 from './formSteps/Step6';
 import SubmitForm from './formSteps/SubmitForm';
 import Entry from './Entry';
+import About from './About';
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -56,6 +57,7 @@ function Main() {
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="New Entry" component={NewEntryNavigation} />
       <Drawer.Screen name="My Entries" component={PreviousEntriesNavigation} />
+      <Drawer.Screen name="About" component={About} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
@@ -64,7 +66,6 @@ function Main() {
 function MainNavigation() {
 
   const signedIn = useSelector(state => state.user.user.signedIn);
-  // const signedIn = true; // for testing purposes
 
   return (
     <Stack.Navigator initialRouteName="Home">
@@ -112,7 +113,7 @@ function PreviousEntriesNavigation(props) {
 function NewEntryNavigation(props) {
 
   const dispatch = useDispatch();
-  const entries = useSelector(state => state.user);
+  const entries = useSelector(state => state.user.entries);
 
   const [newEntry, setNewEntry] = useState({
     gratitudeList: '',

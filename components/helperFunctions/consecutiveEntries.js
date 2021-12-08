@@ -49,15 +49,14 @@ function lastDayOfMonth(month) {
 
 export function consecutiveDates(arrayOfDates) {
 
-  const newDateArray = arrayOfDates.reverse();
   let consecutiveDays = 0;
 
-  for (let i = 0; i < newDateArray.length; i++) {
-    const splitDate = newDateArray[i].split('/');
+  for (let i = 0; i < arrayOfDates.length; i++) {
+    const splitDate = arrayOfDates[i].split('/');
     const month = Number(splitDate[0]);
     const day = Number(splitDate[1]);
     const year = Number(splitDate[2]);
-    if (today === newDateArray[i]) {
+    if (today === arrayOfDates[i]) {
       consecutiveDays += 1;
       months.push(month);
       days.push(day);
@@ -91,4 +90,5 @@ export function consecutiveDates(arrayOfDates) {
       }
     }
   }
+  return consecutiveDays;
 }

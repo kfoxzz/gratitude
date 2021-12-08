@@ -19,7 +19,7 @@ function Step1(props) {
     if (props.newEntry.gratitudeList) {
       setGratitudeList(props.newEntry.gratitudeList)
     }
-  });
+  }, []);
 
   const handleSubmit = () => {
     if (gratitudeList) {
