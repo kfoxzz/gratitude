@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Button, Alert, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Button, Alert, SafeAreaView, Share } from 'react-native';
 import { SpeedDial } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteEntryAsync } from '../redux/userSlice';
@@ -13,6 +13,27 @@ function Entry(props) {
 
   const { entryId } = props.route.params;
   const entry = entries.filter(entry => entryId === entry.id)[0];
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `Check out my gratitude entry for today.
+
+        I am grateful for: ${entry.gratitudeList}.
+        Have I taken time to meditate today? ${entry.meditation ? 'Yes' : 'No'}
+        What goals am I working toward today? ${entry.goals}
+        I love myself because: ${entry.selflove}
+        What can I do to show self-love today? ${entry.selfloveAction}
+        What do I love about the people in my life today? ${entry.loveAboutPeople}
+        What can I do to help another person today? ${entry.helpOthers}
+        What am I looking forward to today? ${entry.lookingForwardTo}
+        `,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  
 
   const handleDelete = () => {
     Alert.alert(
@@ -85,7 +106,7 @@ function Entry(props) {
             onClose={() => setOpen(!open)}
             overlayColor="transparent"
             iconContainerStyle={{ backgroundColor: '#FF8100' }}
-            style={{paddingRight: 10}}>
+            style={{ paddingRight: 10 }}>
             <SpeedDial.Action
               icon={{ name: 'delete', color: '#fff' }}
               onPress={handleDelete}
@@ -93,7 +114,7 @@ function Entry(props) {
             />
             <SpeedDial.Action
               icon={{ name: 'share', color: '#fff' }}
-              onPress={() => console.log('Share Something')}
+              onPress={onShare}
               iconContainerStyle={{ backgroundColor: '#FF8100' }}
             />
           </SpeedDial>
