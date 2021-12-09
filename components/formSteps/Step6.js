@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 function Step6(props) {
   const [lookingForwardTo, setLookingForwardTo] = useState('');
   const userId = useSelector(state => state.user.user.uid);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (props.newEntry.lookingForwardTo) {
@@ -23,14 +24,19 @@ function Step6(props) {
   }, []);
 
   const handleSubmit = () => {
-    props.updateEntry({
-      ...props.newEntry,
-      lookingForwardTo: lookingForwardTo,
-      date: new Date().toLocaleDateString('en-US'),
-      id: uuidv4(),
-      uid: userId
-    });
-    props.navigation.navigate('Submit Form');
+    if (lookingForwardTo) {
+      props.updateEntry({
+        ...props.newEntry,
+        lookingForwardTo: lookingForwardTo,
+        date: new Date().toLocaleDateString('en-US'),
+        id: uuidv4(),
+        uid: userId
+      });
+      setError('');
+      props.navigation.navigate('Submit Form');
+    } else {
+      setError('Required field.')
+    }
   };
 
   return (
@@ -43,6 +49,7 @@ function Step6(props) {
         onChangeText={text => setLookingForwardTo(text)}
         value={lookingForwardTo}
       />
+      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
       <View>
         <TouchableOpacity onPress={handleSubmit}>
           <View style={styles.button}>

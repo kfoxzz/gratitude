@@ -26,14 +26,17 @@ import { addEntryAsync } from '../redux/userSlice';
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function Main() {
-
+function HomeNavigation() {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
       screenOptions={{
         drawerActiveTintColor: '#FF8100',
         drawerType: 'front',
+        headerTintColor: '#FF8100',
+        headerStyle: {
+          shadowColor: 'transparent',
+        },
       }}
       drawerContent={props => {
         return (
@@ -56,7 +59,7 @@ function Main() {
       }}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="New Entry" component={NewEntryNavigation} />
-      <Drawer.Screen name="My Entries" component={PreviousEntriesNavigation} />
+      <Drawer.Screen name="My Entries" component={PreviousEntries} />
       <Drawer.Screen name="About" component={About} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
@@ -93,18 +96,18 @@ function MainNavigation() {
   );
 }
 
-function PreviousEntriesNavigation(props) {
+function Main(props) {
   return (
-    <Stack.Navigator initialRouteName="Entries">
-      <Stack.Screen
-        name="Entries"
-        component={PreviousEntries}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator initialRouteName="HomeNavigation">
       <Stack.Screen
         name="My Entry"
         options={{ headerShown: false }}
         component={Entry}
+      />
+      <Stack.Screen
+        name="HomeNavigation"
+        options={{ headerShown: false }}
+        component={HomeNavigation}
       />
     </Stack.Navigator>
   );

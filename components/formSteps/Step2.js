@@ -54,20 +54,22 @@ function Step2(props) {
   return (
     <ScrollView style={styles.background}>
       <Text style={styles.question}>Have I taken time to meditate today?</Text>
-      <TouchableOpacity
-        onPress={() => handleYes()}
-        style={{ alignItems: 'center' }}>
-        <View style={yesButton}>
-          <Text style={yesText}>Yes</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handleNo()}
-        style={{ alignItems: 'center' }}>
-        <View style={noButton}>
-          <Text style={noText}>No</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
+        <TouchableOpacity
+          onPress={() => handleYes()}
+          style={{ alignItems: 'center' }}>
+          <View style={yesButton}>
+            <Text style={yesText}>Yes</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleNo()}
+          style={{ alignItems: 'center' }}>
+          <View style={noButton}>
+            <Text style={noText}>No</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
       <View style={styles.navigationButtons}>
         <TouchableOpacity onPress={handleSubmit}>
@@ -97,26 +99,22 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   buttonSelected: {
-    backgroundColor: '#FF8100',
-    borderColor: '#FF8100',
     borderRadius: 10,
     borderWidth: 1,
+    borderColor: '#FF8100',
     padding: 10,
     margin: 10,
-    width: 200,
+    width: 100,
   },
   buttonNotSelected: {
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#FF8100',
     padding: 10,
     margin: 10,
-    width: 200,
+    width: 100,
   },
   textSelected: {
     fontSize: 18,
     textAlign: 'center',
-    color: 'white',
+    color: '#FF8100',
   },
   textNotSelected: {
     fontSize: 18,

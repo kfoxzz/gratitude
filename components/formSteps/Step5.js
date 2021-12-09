@@ -13,6 +13,8 @@ import {
 function Step5(props) {
   const [loveAboutPeople, setLoveAboutPeople] = useState('');
   const [helpOthers, setHelpOthers] = useState('');
+  const [errorOne, setErrorOne] = useState('');
+  const [errorTwo, setErrorTwo] = useState('');
 
   useEffect(() => {
     if (props.newEntry.loveAboutPeople) {
@@ -23,10 +25,27 @@ function Step5(props) {
     }
   }, []);
 
-  const handleSubmit = () => {
-    props.updateEntry({ ...props.newEntry, loveAboutPeople: loveAboutPeople, helpOthers: helpOthers});
-    props.navigation.navigate('Step 6');
-  }
+    const handleSubmit = () => {
+      if (loveAboutPeople && helpOthers) {
+        props.updateEntry({
+          ...props.newEntry,
+          loveAboutPeople: loveAboutPeople,
+          helpOthers: helpOthers,
+        });
+        setErrorOne('');
+        setErrorTwo('');
+        props.navigation.navigate('Step 6');
+      } else if (!loveAboutPeople && !helpOthers) {
+        setErrorOne('Required field.');
+        setErrorTwo('Required field.');
+      } else if (!loveAboutPeople) {
+        setErrorOne('Required field.');
+        setErrorTwo('');
+      } else if (!helpOthers) {
+        setErrorOne('');
+        setErrorTwo('Required field.');
+      }
+    };
 
   return (
     <ScrollView style={styles.background}>
@@ -40,6 +59,7 @@ function Step5(props) {
         onChangeText={text => setLoveAboutPeople(text)}
         value={loveAboutPeople}
       />
+      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorOne}</Text>
       <Text style={styles.question}>
         What can I do to help another person today?
       </Text>
@@ -50,6 +70,7 @@ function Step5(props) {
         onChangeText={text => setHelpOthers(text)}
         value={helpOthers}
       />
+      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
       <View>
         <TouchableOpacity onPress={handleSubmit}>
           <View style={styles.button}>

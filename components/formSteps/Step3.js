@@ -12,6 +12,7 @@ import {
 
 function Step3(props) {
     const [goals, setGoals] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
       if (props.newEntry.goals) {
@@ -20,8 +21,13 @@ function Step3(props) {
     }, []);
 
   const handleSubmit = () => {
-    props.updateEntry({...props.newEntry, goals: goals});
-    props.navigation.navigate('Step 4');
+    if (goals) {
+      props.updateEntry({...props.newEntry, goals: goals});
+      setError('');
+      props.navigation.navigate('Step 4');
+    } else {
+      setError('Required field.');
+    }
   }
 
   return (
@@ -43,6 +49,7 @@ function Step3(props) {
           onChangeText={text => setGoals(text)}
           value={goals}
         />
+        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
         <View>
           <TouchableOpacity onPress={handleSubmit}>
             <View style={styles.button}>

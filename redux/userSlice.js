@@ -72,7 +72,6 @@ export const calculateConsecutiveEntries = createAsyncThunk(
   async (dateArray, thunkAPI) => {
     try {
       const entries = await consecutiveDates(dateArray);
-      console.log(entries);
       thunkAPI.dispatch(userSlice.actions.consecutiveEntries(entries));
     } catch(error) {
       console.log('Error:', error.message)

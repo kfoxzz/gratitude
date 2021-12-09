@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Card } from 'react-native-elements';
+import { LinearGradient } from 'expo-linear-gradient';
 import Swiper from 'react-native-swiper';
 import Loading from './Loading';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,11 +23,12 @@ import {
 // ".length is not a function" when attempting to get consec entries first time. On re-render, no error
 
 export function Home() {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const userName = useSelector(state => state.user.user.name);
-  const consecEntries = useSelector(state => state.user.user.consecutiveEntries);
+  const consecEntries = useSelector(
+    state => state.user.user.consecutiveEntries
+  );
   const entries = useSelector(state => state.user.entries);
   const loading = useSelector(state => state.user.user.loading);
 
@@ -36,9 +38,7 @@ export function Home() {
   }, []);
 
   if (loading) {
-    return (
-      <Loading />
-    )
+    return <Loading />;
   } else {
     return (
       <>
@@ -61,23 +61,31 @@ export function Home() {
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Daily Reprieve</Text>
               <Card containerStyle={styles.cardLight}>
-                <Text style={styles.lightCounterText}>
-                  You have recorded your gratitude every day for{' '}
-                </Text>
-                <Text style={styles.lightCounter}>
-                  {consecEntries ? consecEntries : '0'} days
-                </Text>
+                <LinearGradient
+                  style={styles.linearView}
+                  colors={['#FF8100', '#FFAD5B']}>
+                  <Text style={styles.lightCounterText}>
+                    You have recorded your gratitude every day for{' '}
+                  </Text>
+                  <Text style={styles.lightCounter}>
+                    {consecEntries ? consecEntries : '0'} days
+                  </Text>
+                </LinearGradient>
               </Card>
             </View>
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Total Logs</Text>
               <Card containerStyle={styles.cardLight}>
-                <Text style={styles.lightCounterText}>
-                  You have logged what you are grateful for
-                </Text>
-                <Text style={styles.lightCounter}>
-                  {entries ? entries.length : '0'} times
-                </Text>
+                <LinearGradient
+                  style={styles.linearView}
+                  colors={['#FF8100', '#FF9B37', '#FFBF80']}>
+                  <Text style={styles.lightCounterText}>
+                    You have logged what you are grateful for
+                  </Text>
+                  <Text style={styles.lightCounter}>
+                    {entries ? entries.length : '0'} times
+                  </Text>
+                </LinearGradient>
               </Card>
             </View>
           </Swiper>
@@ -85,7 +93,7 @@ export function Home() {
       </>
     );
   }
-} 
+}
 
 const styles = StyleSheet.create({
   image: {
@@ -124,9 +132,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   cardLight: {
-    backgroundColor: '#FF8100',
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: 120,
+    padding: 0,
+  },
+  linearView: {
+    borderRadius: 20,
   },
   lightCounterText: {
     paddingTop: 20,

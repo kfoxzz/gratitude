@@ -15,6 +15,8 @@ import {
 function Step4(props) {
   const [selflove, setSelflove] = useState('');
   const [action, setAction] = useState('');
+  const [errorOne, setErrorOne] = useState('');
+  const [errorTwo, setErrorTwo] = useState('');
 
   useEffect(() => {
     if (props.newEntry.selflove) {
@@ -26,8 +28,21 @@ function Step4(props) {
   }, []);
 
   const handleSubmit = () => {
-    props.updateEntry({...props.newEntry, selflove: selflove, selfloveAction: action});
-    props.navigation.navigate('Step 5');
+    if (selflove && action) {
+      props.updateEntry({...props.newEntry, selflove: selflove, selfloveAction: action});
+      setErrorOne('');
+      setErrorTwo('');
+      props.navigation.navigate('Step 5');
+    } else if (!selflove && !action) {
+      setErrorOne('Required field.');
+      setErrorTwo('Required field.');
+    } else if (!selflove) {
+      setErrorOne('Required field.');
+      setErrorTwo('');
+    } else if (!action) {
+      setErrorOne('');
+      setErrorTwo('Required field.');
+    }
   }
 
   return (
@@ -48,6 +63,9 @@ function Step4(props) {
             onChangeText={text => setSelflove(text)}
             value={selflove}
           />
+          <Text style={{ color: 'red', paddingHorizontal: 20 }}>
+            {errorOne}
+          </Text>
           <Text style={styles.question}>
             What can I do to show self-love today?
           </Text>
@@ -58,6 +76,7 @@ function Step4(props) {
             onChangeText={text => setAction(text)}
             value={action}
           />
+          <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
           <View>
             <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.button}>
