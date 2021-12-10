@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Loading from './Loading';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, KeyboardAvoidingView, StatusBar } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../redux/userSlice';
@@ -19,13 +20,14 @@ function LoginError(props) {
       }
 }
 
-
 function Login(props) {
 
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const loading = useSelector(state => state.user.user.loading);
+    // const loading = true;
 
     const signIn = () => {
       const credentials = {
@@ -35,6 +37,9 @@ function Login(props) {
       dispatch(signInUser(credentials));
     }
 
+    if (loading) {
+      return <Loading />; 
+    }
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -44,13 +49,19 @@ function Login(props) {
           backgroundColor: 'white',
         }}>
         <StatusBar barStyle="dark-content" translucent={true} />
-        <Image source={require('../assets/mandala.png')} style={styles.image} />
-        <Text style={styles.title}>Sign In</Text>
+        <Image
+          source={require('../assets/mandala.png')}
+          style={styles.image}
+        />
+        <Text style={styles.title}>
+          gratitude
+        </Text>
         <TextInput
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
           style={styles.textInput}
+          returnKeyType="next"
         />
         <TextInput
           placeholder="Password"
@@ -58,6 +69,7 @@ function Login(props) {
           onChangeText={setPassword}
           secureTextEntry
           style={styles.textInput}
+          returnKeyType="done"
         />
         <LoginError />
         <TouchableOpacity onPress={() => signIn()}>
@@ -80,6 +92,11 @@ function Login(props) {
             onPress={() => props.navigation.navigate('Sign Up')}
           />
         </View>
+        <Button
+          color="#FF8100"
+          title="Forgot password"
+          onPress={() => console.log('Forgot password')}
+        />
       </KeyboardAvoidingView>
     );
 }
@@ -87,6 +104,7 @@ function Login(props) {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
+    fontWeight: "600",
     textAlign: 'center',
     alignContent: 'center',
     justifyContent: 'center',

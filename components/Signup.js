@@ -44,7 +44,7 @@ function Signup(props) {
         <ScrollView style={styles.inputView}>
           <Text style={styles.inputTitle}>Name</Text>
           <Input
-            placeholder="Your name"
+            placeholder="First name"
             value={name}
             onChangeText={setName}
             style={styles.textInput}
@@ -71,10 +71,15 @@ function Signup(props) {
             secureTextEntry
             style={styles.textInput}
           />
-          <TouchableOpacity
-            onPress={() =>
-              signUp()
-            }>
+          <Text style={styles.inputTitle}>Confirm Password</Text>
+          <Input
+            placeholder="Password"
+            // value={password}
+            // onChangeText={setPassword}
+            secureTextEntry
+            style={styles.textInput}
+          />
+          <TouchableOpacity onPress={() => signUp()}>
             <View style={styles.signUp}>
               <Text
                 style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>

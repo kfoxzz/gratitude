@@ -6,11 +6,11 @@ import {
   ScrollView,
   Image,
   StatusBar,
+  Share,
 } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, FAB } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swiper from 'react-native-swiper';
-import Loading from './Loading';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchEntriesAsync,
@@ -18,11 +18,7 @@ import {
   calculateConsecutiveEntries,
 } from '../redux/userSlice';
 
-// LEFT OFF HERE:
-// ".map is not a function" on re-render
-// ".length is not a function" when attempting to get consec entries first time. On re-render, no error
-
-export function Home() {
+export function Home(props) {
   const dispatch = useDispatch();
 
   const userName = useSelector(state => state.user.user.name);
@@ -30,16 +26,34 @@ export function Home() {
     state => state.user.user.consecutiveEntries
   );
   const entries = useSelector(state => state.user.entries);
-  const loading = useSelector(state => state.user.user.loading);
+  const uid = useSelector(state => state.user.user.uid);
 
   useEffect(async () => {
+    await dispatch(fetchEntriesAsync(uid));
     const dateArray = entries.map(entry => entry.date);
     await dispatch(calculateConsecutiveEntries(dateArray));
-  }, []);
+  }, [props.navigation]);
 
-  if (loading) {
-    return <Loading />;
-  } else {
+  const onShareTotal = async () => {
+    try {
+      const result = await Share.share({
+        message: `I have recorded my gratitude ${entries.length} times on the Gratitude app!`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const onShareConsec = async () => {
+    try {
+      const result = await Share.share({
+        message: `I have recorded my gratitude every day for ${consecEntries} days on the Gratitude app!`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
     return (
       <>
         <StatusBar barStyle="dark-content" translucent={true} />
@@ -72,13 +86,20 @@ export function Home() {
                   </Text>
                 </LinearGradient>
               </Card>
+              <FAB
+                title="Share"
+                color="#FFEDDB"
+                containerStyle={{ marginBottom: 10 }}
+                titleStyle={{ color: '#FF8100', fontWeight: 'bold' }}
+                onPress={onShareConsec}
+              />
             </View>
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Total Logs</Text>
               <Card containerStyle={styles.cardLight}>
                 <LinearGradient
                   style={styles.linearView}
-                  colors={['#FF8100', '#FF9B37', '#FFBF80']}>
+                  colors={['#FF8100', '#FFAD5B']}>
                   <Text style={styles.lightCounterText}>
                     You have logged what you are grateful for
                   </Text>
@@ -87,12 +108,18 @@ export function Home() {
                   </Text>
                 </LinearGradient>
               </Card>
+              <FAB
+                title="Share"
+                color="#FFEDDB"
+                containerStyle={{ marginBottom: 10 }}
+                titleStyle={{ color: '#FF8100', fontWeight: 'bold' }}
+                onPress={onShareTotal}
+              />
             </View>
           </Swiper>
         </ScrollView>
       </>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -133,7 +160,7 @@ const styles = StyleSheet.create({
   },
   cardLight: {
     borderRadius: 20,
-    marginBottom: 120,
+    marginBottom: 100,
     padding: 0,
   },
   linearView: {

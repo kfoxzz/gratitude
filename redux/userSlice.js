@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI } from '../config/users';
 import { consecutiveDates } from '../components/helperFunctions/consecutiveEntries';
+import { sortEntries } from '../components/helperFunctions/sortEntries';
 
 export const createUser = createAsyncThunk(
   'user/create',
@@ -48,7 +49,6 @@ export const deleteEntryAsync = createAsyncThunk(
   async (entryId, uid, thunkAPI) => {
     try {
       await deleteEntryAPI(entryId);
-      await thunkAPI.dispatch(fetchEntriesAsync(uid));
     } catch (error) {
       console.log(error.message);
     }
@@ -60,7 +60,8 @@ export const fetchEntriesAsync = createAsyncThunk(
   async (uid, thunkAPI) => {
     try {
       const entries = await fetchEntriesAPI(uid);
-      await thunkAPI.dispatch(userSlice.actions.addEntry(entries.reverse()));
+      const sortedEntries = sortEntries(entries);
+      await thunkAPI.dispatch(userSlice.actions.addEntry(sortedEntries));
     } catch (error) {
       console.log(error.message);
     }

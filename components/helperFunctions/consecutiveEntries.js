@@ -67,9 +67,12 @@ export function consecutiveDates(arrayOfDates) {
       years.push(year);
       const yearsEqual = year === years[i - 1];
       const daysConsecutive = days[i - 1] - day === 1;
+      const daysEqual = day === days[i-1];
       const monthsEqual = month === months[i - 1];
-      if (monthsEqual && daysConsecutive && yearsEqual) {
+      if (monthsEqual && daysEqual && yearsEqual) {
         consecutiveDays += 1;
+      } else if (monthsEqual && daysConsecutive && yearsEqual) {
+        continue;
       } else if (
         months[i - 1] - month === 1 &&
         day === lastDayOfMonth(month) &&

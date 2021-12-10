@@ -25,17 +25,6 @@ const database = getFirestore();
 //   }
 // });
 
-// export const writeUserData = async (name, email, uid) => {
-//   const newUser = ref(database, `users/${uid}`);
-//   try {
-//     set(newUser, {
-//     name,
-//     email,
-//   })} catch(err) {
-//     console.log(err.message);
-//   }
-// }
-
 export const writeUserData = async (name, email, uid) => {
   try {
     const docRef = await setDoc(doc(database, 'users', uid), {

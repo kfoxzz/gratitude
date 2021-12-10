@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Button, Alert, SafeAreaView, Share } from 'react-native';
 import { SpeedDial } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteEntryAsync } from '../redux/userSlice';
+import { deleteEntryAsync, fetchEntriesAsync } from '../redux/userSlice';
+import { calculateConsecutiveEntries } from '../redux/userSlice';
 
 function Entry(props) {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function Entry(props) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `Check out my gratitude entry for today.
+        message: `Check out my entry for today on the Gratitude app!
 
         I am grateful for: ${entry.gratitudeList}.
         Have I taken time to meditate today? ${entry.meditation ? 'Yes' : 'No'}
@@ -33,7 +34,7 @@ function Entry(props) {
       alert(error.message);
     }
   };
-  
+
 
   const handleDelete = () => {
     Alert.alert(
@@ -50,8 +51,12 @@ function Entry(props) {
     );
   }
 
-  const deleteEntry = () => {
-    dispatch(deleteEntryAsync(entryId, uid));
+  const deleteEntry = async () => {
+    props.navigation.navigate('My Entries');
+    await dispatch(deleteEntryAsync(entryId, uid));
+    await dispatch(fetchEntriesAsync(uid));
+    const dateArray = entries.map(entry => entry.date);
+    await dispatch(calculateConsecutiveEntries(dateArray));
     props.navigation.reset({
       index: 0,
       routes: [{ name: 'My Entries' }],
