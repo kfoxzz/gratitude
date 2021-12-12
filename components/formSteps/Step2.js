@@ -7,8 +7,66 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 function Step2(props) {
+
+    const { colors } = useTheme();
+
+    const styles = StyleSheet.create({
+      background: {
+        backgroundColor: colors.background,
+        height: '100%',
+        flex: 1,
+      },
+      question: {
+        fontSize: 32,
+        fontWeight: '600',
+        padding: 24,
+        color: colors.text
+      },
+      buttonSelected: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#FF8100',
+        padding: 10,
+        margin: 10,
+        width: 100,
+      },
+      buttonNotSelected: {
+        padding: 10,
+        margin: 10,
+        width: 100,
+      },
+      textSelected: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#FF8100',
+      },
+      textNotSelected: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#FF8100',
+      },
+      navigationButtons: {
+        flex: 1,
+        justifyContent: 'flex-end',
+      },
+      button: {
+        backgroundColor: '#FF8100',
+        borderColor: '#FF8100',
+        borderRadius: 10,
+        borderWidth: 1,
+        padding: 10,
+        margin: 10,
+      },
+      buttonText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'white',
+      },
+    });
+
     const [yesButton, setYesButton] = useState(styles.buttonNotSelected);
     const [noButton, setNoButton] = useState(styles.buttonNotSelected);
     const [yesText, setYesText] = useState(styles.textNotSelected);

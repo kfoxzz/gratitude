@@ -17,9 +17,12 @@ import {
   totalEntries,
   calculateConsecutiveEntries,
 } from '../redux/userSlice';
+import { useTheme } from '@react-navigation/native';
 
 export function Home(props) {
   const dispatch = useDispatch();
+
+  const { colors } = useTheme();
 
   const userName = useSelector(state => state.user.user.name);
   const consecEntries = useSelector(
@@ -56,8 +59,9 @@ export function Home(props) {
 
     return (
       <>
-        <StatusBar barStyle="dark-content" translucent={true} />
-        <ScrollView style={styles.background}>
+        <StatusBar barStyle={colors.statusBar} translucent={true} />
+        <ScrollView
+          style={(styles.background, { backgroundColor: colors.background })}>
           <Swiper
             showsPagination={true}
             activeDotStyle={{ backgroundColor: '#FF8100' }}
@@ -74,7 +78,16 @@ export function Home(props) {
             </View>
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Daily Reprieve</Text>
-              <Card containerStyle={styles.cardLight}>
+              <View
+                style={
+                  (styles.cardLight,
+                  {
+                    backgroundColor: colors.background,
+                    borderColor: colors.background,
+                    padding: 20,
+                    paddingBottom: 75,
+                  })
+                }>
                 <LinearGradient
                   style={styles.linearView}
                   colors={['#FF8100', '#FFAD5B']}>
@@ -85,18 +98,30 @@ export function Home(props) {
                     {consecEntries ? consecEntries : '0'} days
                   </Text>
                 </LinearGradient>
-              </Card>
+              </View>
               <FAB
                 title="Share"
-                color="#FFEDDB"
+                color={colors.shareButton}
                 containerStyle={{ marginBottom: 10 }}
-                titleStyle={{ color: '#FF8100', fontWeight: 'bold' }}
+                titleStyle={{
+                  color: colors.shareButtonText,
+                  fontWeight: 'bold',
+                }}
                 onPress={onShareConsec}
               />
             </View>
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Total Logs</Text>
-              <Card containerStyle={styles.cardLight}>
+              <View
+                style={
+                  (styles.cardLight,
+                  {
+                    backgroundColor: colors.background,
+                    borderColor: colors.background,
+                    padding: 20,
+                    paddingBottom: 75,
+                  })
+                }>
                 <LinearGradient
                   style={styles.linearView}
                   colors={['#FF8100', '#FFAD5B']}>
@@ -107,12 +132,15 @@ export function Home(props) {
                     {entries ? entries.length : '0'} times
                   </Text>
                 </LinearGradient>
-              </Card>
+              </View>
               <FAB
                 title="Share"
-                color="#FFEDDB"
+                color={colors.shareButton}
                 containerStyle={{ marginBottom: 10 }}
-                titleStyle={{ color: '#FF8100', fontWeight: 'bold' }}
+                titleStyle={{
+                  color: colors.shareButtonText,
+                  fontWeight: 'bold',
+                }}
                 onPress={onShareTotal}
               />
             </View>
@@ -160,8 +188,9 @@ const styles = StyleSheet.create({
   },
   cardLight: {
     borderRadius: 20,
-    marginBottom: 100,
-    padding: 0,
+    paddingBottom: 100,
+    borderWidth: 1,
+
   },
   linearView: {
     borderRadius: 20,

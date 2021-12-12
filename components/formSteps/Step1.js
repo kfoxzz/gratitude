@@ -9,8 +9,50 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+
 
 function Step1(props) {
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    background: {
+      height: 200,
+    },
+    question: {
+      fontSize: 32,
+      fontWeight: '600',
+      padding: 24,
+      color: colors.text,
+    },
+    input: {
+      margin: 12,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      padding: 10,
+      paddingTop: 11,
+      borderRadius: 6,
+      borderColor: colors.textInputBorder,
+      fontSize: 18,
+      backgroundColor: colors.textInputColor,
+      color: colors.text,
+    },
+    button: {
+      backgroundColor: '#FF8100',
+      borderColor: '#FF8100',
+      borderRadius: 10,
+      borderWidth: 1,
+      padding: 10,
+      margin: 10,
+    },
+    buttonText: {
+      fontSize: 18,
+      textAlign: 'center',
+      color: 'white',
+    },
+  });
+
 
   const [gratitudeList, setGratitudeList] = useState('');
   const [error, setError] = useState('');
@@ -32,8 +74,12 @@ function Step1(props) {
   }
 
   return (
-    <ScrollView style={styles.background}>
-      <Text style={styles.question}>I am grateful for...</Text>
+    <ScrollView
+      style={styles.background, { backgroundColor: colors.background }}>
+      <Text
+        style={{ color: colors.text, fontSize: 32, fontWeight: '600', padding: 24 }}>
+        I am grateful for...
+      </Text>
       <TextInput
         style={styles.input}
         multiline
@@ -55,7 +101,6 @@ function Step1(props) {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: 'white',
     height: 200,
   },
   question: {
@@ -70,8 +115,10 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 11,
     borderRadius: 6,
-    borderColor: 'lightgray',
+    borderColor: '#383838',
     fontSize: 18,
+    backgroundColor: '#383838',
+    color: 'white'
   },
   button: {
     backgroundColor: '#FF8100',

@@ -5,11 +5,23 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+
 
 function About(props) {
 
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    subtitle: {
+      fontSize: 18,
+      paddingVertical: 8,
+      color: colors.text
+    },
+  });
+
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
+    <ScrollView style={{ backgroundColor: colors.background }}>
       <View style={{ padding: 20 }}>
         <Text style={styles.subtitle}>
           Icons made by Freepik from www.flaticon.com.
@@ -19,24 +31,5 @@ function About(props) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: '300',
-    fontStyle: 'italic',
-    color: 'darkgray',
-    paddingBottom: 30,
-  },
-  subtitle: {
-    fontSize: 18,
-    paddingVertical: 8,
-  },
-  info: {
-    color: 'darkgray',
-    fontSize: 18,
-    paddingBottom: 10,
-  },
-});
 
 export default About;

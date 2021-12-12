@@ -3,8 +3,22 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from '
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchEntriesAsync } from '../redux/userSlice';
+import { useTheme } from '@react-navigation/native';
+import { color } from 'react-native-reanimated';
 
 function PreviousEntries(props) {
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    item: {
+      padding: 20,
+      borderColor: colors.listBorder,
+      borderWidth: 1,
+      borderBottomColor: colors.background,
+      backgroundColor: colors.background,
+    },
+  });
 
   const dispatch = useDispatch();
   const entries = useSelector(state => state.user.entries);
@@ -17,7 +31,7 @@ function PreviousEntries(props) {
   const EntryItem = ({item, onPress}) => {
     return (
       <TouchableOpacity onPress={onPress} style={styles.item}>
-        <Text>{item.date}</Text>
+        <Text style={{color: colors.text}}>{item.date}</Text>
       </TouchableOpacity>
     );
   }
@@ -32,7 +46,7 @@ function PreviousEntries(props) {
   }
 
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View style={{ backgroundColor: colors.background }}>
       <FlatList
         data={entries}
         renderItem={renderItem}
@@ -41,14 +55,5 @@ function PreviousEntries(props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  item: {
-    padding: 20,
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderBottomColor: 'white'
-  },
-});;
 
 export default PreviousEntries;

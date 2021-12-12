@@ -4,8 +4,37 @@ import { SpeedDial } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteEntryAsync, fetchEntriesAsync } from '../redux/userSlice';
 import { calculateConsecutiveEntries } from '../redux/userSlice';
+import { useTheme } from '@react-navigation/native';
+
 
 function Entry(props) {
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    background: {
+      backgroundColor: colors.background,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: '300',
+      fontStyle: 'italic',
+      color: 'darkgray',
+      paddingBottom: 30,
+      textAlign: 'center',
+    },
+    subtitle: {
+      fontSize: 18,
+      paddingVertical: 8,
+      color: colors.text
+    },
+    info: {
+      color: colors.subtext,
+      fontSize: 18,
+      paddingBottom: 20,
+    },
+  });
+
   const dispatch = useDispatch();
 
   const entries = useSelector(state => state.user.entries);
@@ -65,7 +94,7 @@ function Entry(props) {
 
   return (
     <>
-      <SafeAreaView style={{ backgroundColor: '#fff' }} />
+      <SafeAreaView style={{ backgroundColor: colors.background }} />
       <ScrollView style={styles.background}>
         <View style={{ flex: 1, alignItems: 'flex-start', paddingLeft: 10 }}>
           <Button
@@ -128,28 +157,5 @@ function Entry(props) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '300',
-    fontStyle: 'italic',
-    color: 'darkgray',
-    paddingBottom: 30,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 18,
-    paddingVertical: 8,
-  },
-  info: {
-    color: 'darkgray',
-    fontSize: 18,
-    paddingBottom: 20,
-  },
-});
 
 export default Entry;

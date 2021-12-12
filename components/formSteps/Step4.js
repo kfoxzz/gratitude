@@ -11,8 +11,50 @@ import {
   Keyboard,
   TouchableOpacity
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 function Step4(props) {
+
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    background: {
+      backgroundColor: colors.background,
+      height: 200,
+    },
+    question: {
+      fontSize: 32,
+      fontWeight: '600',
+      padding: 24,
+      color: colors.text
+    },
+    input: {
+      margin: 12,
+      marginHorizontal: 20,
+      borderWidth: 1,
+      padding: 10,
+      paddingTop: 11,
+      borderRadius: 6,
+      borderColor: colors.textInputBorder,
+      fontSize: 18,
+      backgroundColor: colors.textInputColor,
+      color: colors.text,
+    },
+    button: {
+      backgroundColor: '#FF8100',
+      borderColor: '#FF8100',
+      borderRadius: 10,
+      borderWidth: 1,
+      padding: 10,
+      margin: 10,
+    },
+    buttonText: {
+      fontSize: 18,
+      textAlign: 'center',
+      color: 'white',
+    },
+  });
+
   const [selflove, setSelflove] = useState('');
   const [action, setAction] = useState('');
   const [errorOne, setErrorOne] = useState('');
@@ -52,7 +94,7 @@ function Step4(props) {
         style={{
           flex: 1,
           flexDirection: 'column',
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
         }}>
         <ScrollView>
           <Text style={styles.question}>I love myself because...</Text>
@@ -94,40 +136,5 @@ function Step4(props) {
     </TouchableWithoutFeedback>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: 'white',
-    height: 200,
-  },
-  question: {
-    fontSize: 32,
-    fontWeight: '600',
-    padding: 24,
-  },
-  input: {
-    margin: 12,
-    marginHorizontal: 20,
-    borderWidth: 1,
-    padding: 10,
-    paddingTop: 11,
-    borderRadius: 6,
-    borderColor: 'lightgray',
-    fontSize: 18,
-  },
-  button: {
-    backgroundColor: '#FF8100',
-    borderColor: '#FF8100',
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
-    margin: 10,
-  },
-  buttonText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'white',
-  },
-});
 
 export default Step4;
