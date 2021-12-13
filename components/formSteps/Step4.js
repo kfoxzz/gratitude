@@ -26,7 +26,7 @@ function Step4(props) {
       fontSize: 32,
       fontWeight: '600',
       padding: 24,
-      color: colors.text
+      color: colors.text,
     },
     input: {
       margin: 12,
@@ -46,7 +46,8 @@ function Step4(props) {
       borderRadius: 10,
       borderWidth: 1,
       padding: 10,
-      margin: 10,
+      marginTop: 10,
+      marginHorizontal: 20,
     },
     buttonText: {
       fontSize: 18,

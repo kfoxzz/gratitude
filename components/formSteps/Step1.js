@@ -44,7 +44,8 @@ function Step1(props) {
       borderRadius: 10,
       borderWidth: 1,
       padding: 10,
-      margin: 10,
+      marginTop: 10,
+      marginHorizontal: 20
     },
     buttonText: {
       fontSize: 18,
