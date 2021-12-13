@@ -7,9 +7,10 @@ export const createUser = createAsyncThunk(
   'user/create',
   async (userData, thunkAPI) => {
     try {
+      await thunkAPI.dispatch(userSlice.actions.loading(true));
       const userDetails = await createUserAPI(userData);
+      await thunkAPI.dispatch(userSlice.actions.loading(false));
       return userDetails;
-      // thunkAPI.dispatch(someAction()) to call existing action in reducer
     } catch (error) {
       console.log(error.message);
     }

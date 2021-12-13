@@ -15,14 +15,6 @@ function Entry(props) {
     background: {
       backgroundColor: colors.background,
     },
-    title: {
-      fontSize: 24,
-      fontWeight: '300',
-      fontStyle: 'italic',
-      color: 'darkgray',
-      paddingBottom: 30,
-      textAlign: 'center',
-    },
     subtitle: {
       fontSize: 18,
       paddingVertical: 8,

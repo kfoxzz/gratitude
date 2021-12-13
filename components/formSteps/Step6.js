@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import 'react-native-get-random-values';
 import { useTheme } from '@react-navigation/native';
 
 function Step6(props) {
@@ -88,6 +89,7 @@ function Step6(props) {
         style={styles.input}
         multiline
         placeholder="List at least one thing you are looking forward to today."
+        placeholderTextColor={colors.inputPlaceholder}
         onChangeText={text => setLookingForwardTo(text)}
         value={lookingForwardTo}
       />

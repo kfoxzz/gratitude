@@ -75,15 +75,21 @@ function Step1(props) {
 
   return (
     <ScrollView
-      style={styles.background, { backgroundColor: colors.background }}>
+      style={(styles.background, { backgroundColor: colors.background })}>
       <Text
-        style={{ color: colors.text, fontSize: 32, fontWeight: '600', padding: 24 }}>
+        style={{
+          color: colors.text,
+          fontSize: 32,
+          fontWeight: '600',
+          padding: 24,
+        }}>
         I am grateful for...
       </Text>
       <TextInput
         style={styles.input}
         multiline
         placeholder="List 10 things you are grateful for."
+        placeholderTextColor={colors.inputPlaceholder}
         onChangeText={text => setGratitudeList(text)}
         value={gratitudeList}
       />

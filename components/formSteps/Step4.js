@@ -102,6 +102,7 @@ function Step4(props) {
             style={styles.input}
             multiline
             placeholder="List at least 3 things you love about yourself."
+            placeholderTextColor={colors.inputPlaceholder}
             onChangeText={text => setSelflove(text)}
             value={selflove}
           />
@@ -115,10 +116,13 @@ function Step4(props) {
             style={styles.input}
             multiline
             placeholder="How can I love myself?"
+            placeholderTextColor={colors.inputPlaceholder}
             onChangeText={text => setAction(text)}
             value={action}
           />
-          <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
+          <Text style={{ color: 'red', paddingHorizontal: 20 }}>
+            {errorTwo}
+          </Text>
           <View>
             <TouchableOpacity onPress={handleSubmit}>
               <View style={styles.button}>

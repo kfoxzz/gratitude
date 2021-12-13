@@ -98,6 +98,7 @@ function Step5(props) {
         style={styles.input}
         multiline
         placeholder="List at least one thing you love about someone in your life."
+        placeholderTextColor={colors.inputPlaceholder}
         onChangeText={text => setLoveAboutPeople(text)}
         value={loveAboutPeople}
       />
@@ -109,6 +110,7 @@ function Step5(props) {
         style={styles.input}
         multiline
         placeholder="List at least one way you can help someone today."
+        placeholderTextColor={colors.inputPlaceholder}
         onChangeText={text => setHelpOthers(text)}
         value={helpOthers}
       />

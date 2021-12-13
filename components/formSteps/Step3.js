@@ -89,6 +89,7 @@ function Step3(props) {
           style={styles.input}
           multiline
           placeholder="List at least 1 goal you are working toward today."
+          placeholderTextColor={colors.inputPlaceholder}
           onChangeText={text => setGoals(text)}
           value={goals}
         />
