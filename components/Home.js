@@ -8,13 +8,12 @@ import {
   StatusBar,
   Share,
 } from 'react-native';
-import { Card, FAB } from 'react-native-elements';
+import { FAB } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import Swiper from 'react-native-swiper';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchEntriesAsync,
-  totalEntries,
   calculateConsecutiveEntries,
 } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native';

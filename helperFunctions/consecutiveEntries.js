@@ -1,5 +1,3 @@
-const today = new Date().toLocaleDateString('en-US');
-
 let months = [];
 let days = [];
 let years = [];
@@ -49,30 +47,36 @@ function lastDayOfMonth(month) {
 
 export function consecutiveDates(arrayOfDates) {
 
+  let today = new Date().toLocaleDateString('en-US');
+
   let consecutiveDays = 0;
 
+  if (today === arrayOfDates[0]) {
+  consecutiveDays += 1;
+  }
+
   for (let i = 0; i < arrayOfDates.length; i++) {
+
     const splitDate = arrayOfDates[i].split('/');
     const month = Number(splitDate[0]);
     const day = Number(splitDate[1]);
     const year = Number(splitDate[2]);
+
+    months.push(month);
+    days.push(day);
+    years.push(year);
+
     if (today === arrayOfDates[i]) {
-      consecutiveDays += 1;
-      months.push(month);
-      days.push(day);
-      years.push(year);
+      consecutiveDays += 0;
     } else {
-      months.push(month);
-      days.push(day);
-      years.push(year);
       const yearsEqual = year === years[i - 1];
       const daysConsecutive = days[i - 1] - day === 1;
       const daysEqual = day === days[i-1];
       const monthsEqual = month === months[i - 1];
       if (monthsEqual && daysEqual && yearsEqual) {
-        consecutiveDays += 1;
+        consecutiveDays += 0;
       } else if (monthsEqual && daysConsecutive && yearsEqual) {
-        continue;
+        consecutiveDays += 1;
       } else if (
         months[i - 1] - month === 1 &&
         day === lastDayOfMonth(month) &&

@@ -14,7 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native'; 
-import { defineStyles } from '../components/helperFunctions/defineStyles';
+import { defineStyles } from '../helperFunctions/defineStyles';
 
 function LoginError(props) {
   const loginError = useSelector(state => state.user.user.loginError);
