@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { FAB } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchEntriesAsync } from '../redux/userSlice';
-import { useTheme } from '@react-navigation/native';
-import { color } from 'react-native-reanimated';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 function PreviousEntries(props) {
 
@@ -15,10 +15,12 @@ function PreviousEntries(props) {
       padding: 20,
       borderColor: colors.listBorder,
       borderWidth: 1,
-      borderBottomColor: colors.background,
+      borderTopColor: colors.background,
       backgroundColor: colors.background,
     },
   });
+
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
   const entries = useSelector(state => state.user.entries);
@@ -40,13 +42,23 @@ function PreviousEntries(props) {
     return (
       <EntryItem
         item={item}
-        onPress={() => props.navigation.navigate('My Entry', {entryId: item.id})}
+        onPress={() => navigation.navigate('My Entry', {entryId: item.id})}
       />
     )
   }
 
   return (
     <View style={{ backgroundColor: colors.background }}>
+      <FAB
+        title="Submit a New Entry"
+        color={colors.shareButton}
+        containerStyle={{ marginBottom: 10 }}
+        titleStyle={{
+          color: colors.shareButtonText,
+          fontWeight: 'bold',
+        }}
+        onPress={() => navigation.navigate('NewEntryStack')}
+      />
       <FlatList
         data={entries}
         renderItem={renderItem}

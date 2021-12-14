@@ -11,7 +11,8 @@ import {
   Keyboard,
   TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { Header } from 'react-native-elements';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 function Step4(props) {
 
@@ -54,7 +55,13 @@ function Step4(props) {
       textAlign: 'center',
       color: 'white',
     },
+    backButton: {
+      alignSelf: 'flex-start',
+      paddingLeft: 15,
+    },
   });
+
+  const navigation = useNavigation();
 
   const [selflove, setSelflove] = useState('');
   const [action, setAction] = useState('');
@@ -89,56 +96,69 @@ function Step4(props) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          backgroundColor: colors.background,
-        }}>
-        <ScrollView>
-          <Text style={styles.question}>I love myself because...</Text>
-          <TextInput
-            style={styles.input}
-            multiline
-            placeholder="List at least 3 things you love about yourself."
-            placeholderTextColor={colors.inputPlaceholder}
-            onChangeText={text => setSelflove(text)}
-            value={selflove}
-          />
-          <Text style={{ color: 'red', paddingHorizontal: 20 }}>
-            {errorOne}
-          </Text>
-          <Text style={styles.question}>
-            What can I do to show self-love today?
-          </Text>
-          <TextInput
-            style={styles.input}
-            multiline
-            placeholder="How can I love myself?"
-            placeholderTextColor={colors.inputPlaceholder}
-            onChangeText={text => setAction(text)}
-            value={action}
-          />
-          <Text style={{ color: 'red', paddingHorizontal: 20 }}>
-            {errorTwo}
-          </Text>
-          <View>
-            <TouchableOpacity onPress={handleSubmit}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Next</Text>
-              </View>
-            </TouchableOpacity>
-            <Button
-              title="Back"
-              color="#FF8100"
-              onPress={() => props.navigation.navigate('Step 3')}
+    <>
+      <Header
+        backgroundColor={colors.background}
+        containerStyle={{ borderBottomColor: colors.background }}
+      />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: colors.background,
+          }}>
+          <ScrollView>
+            <View style={styles.backButton}>
+              <Button
+                title="Cancel"
+                onPress={() => navigation.navigate('New Entry')}
+                color="#FF8100"
+              />
+            </View>
+            <Text style={styles.question}>I love myself because...</Text>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="List at least 3 things you love about yourself."
+              placeholderTextColor={colors.inputPlaceholder}
+              onChangeText={text => setSelflove(text)}
+              value={selflove}
             />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <Text style={{ color: 'red', paddingHorizontal: 20 }}>
+              {errorOne}
+            </Text>
+            <Text style={styles.question}>
+              What can I do to show self-love today?
+            </Text>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="How can I love myself?"
+              placeholderTextColor={colors.inputPlaceholder}
+              onChangeText={text => setAction(text)}
+              value={action}
+            />
+            <Text style={{ color: 'red', paddingHorizontal: 20 }}>
+              {errorTwo}
+            </Text>
+            <View>
+              <TouchableOpacity onPress={handleSubmit}>
+                <View style={styles.button}>
+                  <Text style={styles.buttonText}>Next</Text>
+                </View>
+              </TouchableOpacity>
+              <Button
+                title="Back"
+                color="#FF8100"
+                onPress={() => props.navigation.navigate('Step 3')}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 }
 

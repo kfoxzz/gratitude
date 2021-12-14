@@ -13,6 +13,7 @@ import Step6 from './formSteps/Step6';
 import SubmitForm from './formSteps/SubmitForm';
 import Entry from './Entry';
 import About from './About';
+import NewEntry from './NewEntry';
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -58,7 +59,7 @@ function HomeNavigation() {
         );
       }}>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="New Entry" component={NewEntryNavigation} />
+      <Drawer.Screen name="New Entry" component={NewEntry} />
       <Drawer.Screen name="My Entries" component={PreviousEntries} />
       <Drawer.Screen name="About" component={About} />
       <Drawer.Screen name="Settings" component={Settings} />
@@ -103,6 +104,11 @@ function Main(props) {
         name="My Entry"
         options={{ headerShown: false }}
         component={Entry}
+      />
+      <Stack.Screen
+        name="NewEntryStack"
+        options={{ headerShown: false }}
+        component={NewEntryNavigation}
       />
       <Stack.Screen
         name="HomeNavigation"
@@ -157,7 +163,8 @@ function NewEntryNavigation(props) {
   }
 
   return (
-    <Stack.Navigator initialRouteName="Step 1">
+    <Stack.Navigator
+      initialRouteName="Step 1">
       <Stack.Screen name="Step 1" options={{ headerShown: false }}>
         {props => (
           <Step1

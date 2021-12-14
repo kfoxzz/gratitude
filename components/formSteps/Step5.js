@@ -9,7 +9,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { Header } from 'react-native-elements';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 function Step5(props) {
 
@@ -52,7 +53,13 @@ function Step5(props) {
       textAlign: 'center',
       color: 'white',
     },
+    backButton: {
+      alignSelf: 'flex-start',
+      paddingLeft: 15,
+    },
   });
+
+  const navigation = useNavigation();
 
   const [loveAboutPeople, setLoveAboutPeople] = useState('');
   const [helpOthers, setHelpOthers] = useState('');
@@ -91,44 +98,57 @@ function Step5(props) {
     };
 
   return (
-    <ScrollView style={styles.background}>
-      <Text style={styles.question}>
-        What do I love about the people in my life today?
-      </Text>
-      <TextInput
-        style={styles.input}
-        multiline
-        placeholder="List at least one thing you love about someone in your life."
-        placeholderTextColor={colors.inputPlaceholder}
-        onChangeText={text => setLoveAboutPeople(text)}
-        value={loveAboutPeople}
+    <>
+      <Header
+        backgroundColor={colors.background}
+        containerStyle={{ borderBottomColor: colors.background }}
       />
-      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorOne}</Text>
-      <Text style={styles.question}>
-        What can I do to help another person today?
-      </Text>
-      <TextInput
-        style={styles.input}
-        multiline
-        placeholder="List at least one way you can help someone today."
-        placeholderTextColor={colors.inputPlaceholder}
-        onChangeText={text => setHelpOthers(text)}
-        value={helpOthers}
-      />
-      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
-      <View>
-        <TouchableOpacity onPress={handleSubmit}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Next</Text>
-          </View>
-        </TouchableOpacity>
-        <Button
-          title="Back"
-          color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 4')}
+      <ScrollView style={styles.background}>
+        <View style={styles.backButton}>
+          <Button
+            title="Cancel"
+            onPress={() => navigation.navigate('New Entry')}
+            color="#FF8100"
+          />
+        </View>
+        <Text style={styles.question}>
+          What do I love about the people in my life today?
+        </Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          placeholder="List at least one thing you love about someone in your life."
+          placeholderTextColor={colors.inputPlaceholder}
+          onChangeText={text => setLoveAboutPeople(text)}
+          value={loveAboutPeople}
         />
-      </View>
-    </ScrollView>
+        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorOne}</Text>
+        <Text style={styles.question}>
+          What can I do to help another person today?
+        </Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          placeholder="List at least one way you can help someone today."
+          placeholderTextColor={colors.inputPlaceholder}
+          onChangeText={text => setHelpOthers(text)}
+          value={helpOthers}
+        />
+        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
+        <View>
+          <TouchableOpacity onPress={handleSubmit}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </View>
+          </TouchableOpacity>
+          <Button
+            title="Back"
+            color="#FF8100"
+            onPress={() => props.navigation.navigate('Step 4')}
+          />
+        </View>
+      </ScrollView>
+    </>
   );
 }
 

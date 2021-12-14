@@ -7,10 +7,11 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-
+import { Header } from 'react-native-elements';
+import { useTheme, useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function Step1(props) {
 
@@ -19,6 +20,7 @@ function Step1(props) {
   const styles = StyleSheet.create({
     background: {
       height: 200,
+      backgroundColor: colors.background,
     },
     question: {
       fontSize: 32,
@@ -45,15 +47,20 @@ function Step1(props) {
       borderWidth: 1,
       padding: 10,
       marginTop: 10,
-      marginHorizontal: 20
+      marginHorizontal: 20,
     },
     buttonText: {
       fontSize: 18,
       textAlign: 'center',
       color: 'white',
     },
+    backButton: {
+      alignSelf: 'flex-start',
+      paddingLeft: 15,
+    },
   });
 
+  const navigation = useNavigation();
 
   const [gratitudeList, setGratitudeList] = useState('');
   const [error, setError] = useState('');
@@ -75,34 +82,47 @@ function Step1(props) {
   }
 
   return (
-    <ScrollView
-      style={(styles.background, { backgroundColor: colors.background })}>
-      <Text
-        style={{
-          color: colors.text,
-          fontSize: 32,
-          fontWeight: '600',
-          padding: 24,
-        }}>
-        I am grateful for...
-      </Text>
-      <TextInput
-        style={styles.input}
-        multiline
-        placeholder="List 10 things you are grateful for."
-        placeholderTextColor={colors.inputPlaceholder}
-        onChangeText={text => setGratitudeList(text)}
-        value={gratitudeList}
+    <>
+      <Header
+        backgroundColor={colors.background}
+        containerStyle={{ borderBottomColor: colors.background }}
       />
-      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-      <View>
-        <TouchableOpacity onPress={handleSubmit}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Next</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      <ScrollView
+        style={(styles.background)}>
+        <View style={styles.backButton}>
+          <Button
+            title="Cancel"
+            onPress={() => navigation.navigate('New Entry')}
+            color="#FF8100"
+          />
+        </View>
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 32,
+            fontWeight: '600',
+            padding: 24,
+          }}>
+          I am grateful for...
+        </Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          placeholder="List 10 things you are grateful for."
+          placeholderTextColor={colors.inputPlaceholder}
+          onChangeText={text => setGratitudeList(text)}
+          value={gratitudeList}
+        />
+        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
+        <View>
+          <TouchableOpacity onPress={handleSubmit}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </>
   );
 }
 

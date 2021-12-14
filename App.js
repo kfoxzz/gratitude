@@ -20,7 +20,7 @@ export default function App() {
       <AppearanceProvider>
         <SafeAreaProvider>
           <NavigationContainer
-            theme={scheme === 'dark' ? DarkTheme : LightTheme}>
+            theme={LightTheme}>
             <Main />
           </NavigationContainer>
         </SafeAreaProvider>

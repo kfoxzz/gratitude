@@ -7,7 +7,8 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { Header } from 'react-native-elements';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 function Step2(props) {
 
@@ -66,7 +67,13 @@ function Step2(props) {
         textAlign: 'center',
         color: 'white',
       },
+      backButton: {
+        alignSelf: 'flex-start',
+        paddingLeft: 15,
+      },
     });
+
+    const navigation = useNavigation();
 
     const [yesButton, setYesButton] = useState(styles.buttonNotSelected);
     const [noButton, setNoButton] = useState(styles.buttonNotSelected);
@@ -111,38 +118,53 @@ function Step2(props) {
     }
 
   return (
-    <ScrollView style={styles.background}>
-      <Text style={styles.question}>Have I taken time to meditate today?</Text>
-      <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
-        <TouchableOpacity
-          onPress={() => handleYes()}
-          style={{ alignItems: 'center' }}>
-          <View style={yesButton}>
-            <Text style={yesText}>Yes</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => handleNo()}
-          style={{ alignItems: 'center' }}>
-          <View style={noButton}>
-            <Text style={noText}>No</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-      <View style={styles.navigationButtons}>
-        <TouchableOpacity onPress={handleSubmit}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Next</Text>
-          </View>
-        </TouchableOpacity>
-        <Button
-          title="Back"
-          color="#FF8100"
-          onPress={() => props.navigation.navigate('Step 1')}
-        />
-      </View>
-    </ScrollView>
+    <>
+      <Header
+        backgroundColor={colors.background}
+        containerStyle={{ borderBottomColor: colors.background }}
+      />
+      <ScrollView style={styles.background}>
+        <View style={styles.backButton}>
+          <Button
+            title="Cancel"
+            onPress={() => navigation.navigate('New Entry')}
+            color="#FF8100"
+          />
+        </View>
+        <Text style={styles.question}>
+          Have I taken time to meditate today?
+        </Text>
+        <View style={{ flex: 1, flexDirection: 'row', alignSelf: 'center' }}>
+          <TouchableOpacity
+            onPress={() => handleYes()}
+            style={{ alignItems: 'center' }}>
+            <View style={yesButton}>
+              <Text style={yesText}>Yes</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleNo()}
+            style={{ alignItems: 'center' }}>
+            <View style={noButton}>
+              <Text style={noText}>No</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity onPress={handleSubmit}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </View>
+          </TouchableOpacity>
+          <Button
+            title="Back"
+            color="#FF8100"
+            onPress={() => props.navigation.navigate('Step 1')}
+          />
+        </View>
+      </ScrollView>
+    </>
   );
 }
 

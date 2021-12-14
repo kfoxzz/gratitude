@@ -9,8 +9,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-
+import { Header } from 'react-native-elements';
+import { useTheme, useNavigation } from '@react-navigation/native';
 
 function Step3(props) {
 
@@ -53,7 +53,13 @@ function Step3(props) {
       textAlign: 'center',
       color: 'white',
     },
+    backButton: {
+      alignSelf: 'flex-start',
+      paddingLeft: 15,
+    },
   });
+
+    const navigation = useNavigation();
 
     const [goals, setGoals] = useState('');
     const [error, setError] = useState('');
@@ -75,40 +81,53 @@ function Step3(props) {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'white',
-      }}>
-      <ScrollView style={styles.background}>
-        <Text style={styles.question}>
-          What goals am I working toward today?
-        </Text>
-        <TextInput
-          style={styles.input}
-          multiline
-          placeholder="List at least 1 goal you are working toward today."
-          placeholderTextColor={colors.inputPlaceholder}
-          onChangeText={text => setGoals(text)}
-          value={goals}
-        />
-        <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-        <View>
-          <TouchableOpacity onPress={handleSubmit}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Next</Text>
-            </View>
-          </TouchableOpacity>
-          <Button
-            title="Back"
-            color="#FF8100"
-            onPress={() => props.navigation.navigate('Step 2')}
+    <>
+      <Header
+        backgroundColor={colors.background}
+        containerStyle={{ borderBottomColor: colors.background }}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          backgroundColor: 'white',
+        }}>
+        <ScrollView style={styles.background}>
+          <View style={styles.backButton}>
+            <Button
+              title="Cancel"
+              onPress={() => navigation.navigate('New Entry')}
+              color="#FF8100"
+            />
+          </View>
+          <Text style={styles.question}>
+            What goals am I working toward today?
+          </Text>
+          <TextInput
+            style={styles.input}
+            multiline
+            placeholder="List at least 1 goal you are working toward today."
+            placeholderTextColor={colors.inputPlaceholder}
+            onChangeText={text => setGoals(text)}
+            value={goals}
           />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
+          <View>
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Next</Text>
+              </View>
+            </TouchableOpacity>
+            <Button
+              title="Back"
+              color="#FF8100"
+              onPress={() => props.navigation.navigate('Step 2')}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
   );
 }
 

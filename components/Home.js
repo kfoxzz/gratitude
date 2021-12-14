@@ -16,12 +16,15 @@ import {
   fetchEntriesAsync,
   calculateConsecutiveEntries,
 } from '../redux/userSlice';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useNavigation } from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 
 export function Home(props) {
   const dispatch = useDispatch();
 
   const { colors } = useTheme();
+
+  const navigation = useNavigation();
 
   const userName = useSelector(state => state.user.user.name);
   const consecEntries = useSelector(
@@ -57,7 +60,7 @@ export function Home(props) {
   };
 
     return (
-      <>
+      <Animatable.View animation="fadeIn" iterationCount={1} duration={2000}>
         <StatusBar barStyle={colors.statusBar} translucent={true} />
         <ScrollView
           style={(styles.background, { backgroundColor: colors.background })}>
@@ -74,6 +77,16 @@ export function Home(props) {
               <Text style={styles.subtitle}>
                 Swipe to see how you are practicing gratitude in your life.
               </Text>
+              <FAB
+                title="Submit a New Entry"
+                color={colors.shareButton}
+                containerStyle={{ marginBottom: 10 }}
+                titleStyle={{
+                  color: colors.shareButtonText,
+                  fontWeight: 'bold',
+                }}
+                onPress={() => navigation.navigate('NewEntryStack')}
+              />
             </View>
             <View style={styles.slides}>
               <Text style={styles.cardTitle}>Daily Reprieve</Text>
@@ -145,7 +158,7 @@ export function Home(props) {
             </View>
           </Swiper>
         </ScrollView>
-      </>
+      </Animatable.View>
     );
 }
 
