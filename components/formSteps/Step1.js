@@ -48,6 +48,7 @@ function Step1(props) {
       padding: 10,
       marginTop: 10,
       marginHorizontal: 20,
+      marginBottom: 50
     },
     buttonText: {
       fontSize: 18,
@@ -87,8 +88,7 @@ function Step1(props) {
         backgroundColor={colors.background}
         containerStyle={{ borderBottomColor: colors.background }}
       />
-      <ScrollView
-        style={(styles.background)}>
+      <ScrollView style={styles.background}>
         <View style={styles.backButton}>
           <Button
             title="Cancel"
@@ -114,14 +114,14 @@ function Step1(props) {
           value={gratitudeList}
         />
         <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-        <View>
-          <TouchableOpacity onPress={handleSubmit}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Next</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
+      <View>
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }

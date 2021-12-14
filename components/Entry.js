@@ -78,10 +78,6 @@ function Entry(props) {
     await dispatch(fetchEntriesAsync(uid));
     const dateArray = entries.map(entry => entry.date);
     await dispatch(calculateConsecutiveEntries(dateArray));
-    props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'My Entries' }],
-    });
   }
 
   return (

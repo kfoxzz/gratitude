@@ -37,7 +37,7 @@ export function Home(props) {
     await dispatch(fetchEntriesAsync(uid));
     const dateArray = entries.map(entry => entry.date);
     await dispatch(calculateConsecutiveEntries(dateArray));
-  }, [props.navigation]);
+  }, []);
 
   const onShareTotal = async () => {
     try {

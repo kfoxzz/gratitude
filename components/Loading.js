@@ -15,11 +15,9 @@ function Loading(props) {
       width: 100,
     },
     imgView: {
-      alignSelf: 'center',
       flex: 1,
-      paddingTop: 250,
-    },
-    background: {
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: colors.background,
     },
   });
@@ -28,11 +26,11 @@ function Loading(props) {
       <>
         <SafeAreaView style={styles.background} />
         <StatusBar barStyle="dark-content" translucent={true} />
-        <ScrollView style={styles.background}>
+        <View style={styles.imgView}>
           <Animatable.View
-            animation="pulse"
+            animation="bounce"
             iterationCount="infinite"
-            style={styles.imgView}>
+            duration={3000}>
             <Image
               style={styles.image}
               source={require('../assets/mandala.png')}
@@ -54,7 +52,7 @@ function Loading(props) {
                 fill="#ff8100"></Path>
             </Svg> */}
           </Animatable.View>
-        </ScrollView>
+        </View>
       </>
     );
 }

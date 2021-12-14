@@ -21,7 +21,7 @@ function Step4(props) {
   const styles = StyleSheet.create({
     background: {
       backgroundColor: colors.background,
-      height: 200,
+      height: 500,
     },
     question: {
       fontSize: 32,
@@ -58,6 +58,11 @@ function Step4(props) {
     backButton: {
       alignSelf: 'flex-start',
       paddingLeft: 15,
+    },
+    navigationButtons: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: 50,
     },
   });
 
@@ -109,7 +114,7 @@ function Step4(props) {
             flexDirection: 'column',
             backgroundColor: colors.background,
           }}>
-          <ScrollView>
+          <ScrollView style={styles.background}>
             <View style={styles.backButton}>
               <Button
                 title="Cancel"
@@ -143,19 +148,19 @@ function Step4(props) {
             <Text style={{ color: 'red', paddingHorizontal: 20 }}>
               {errorTwo}
             </Text>
-            <View>
-              <TouchableOpacity onPress={handleSubmit}>
-                <View style={styles.button}>
-                  <Text style={styles.buttonText}>Next</Text>
-                </View>
-              </TouchableOpacity>
-              <Button
-                title="Back"
-                color="#FF8100"
-                onPress={() => props.navigation.navigate('Step 3')}
-              />
-            </View>
           </ScrollView>
+          <View style={styles.navigationButtons}>
+            <TouchableOpacity onPress={handleSubmit}>
+              <View style={styles.button}>
+                <Text style={styles.buttonText}>Next</Text>
+              </View>
+            </TouchableOpacity>
+            <Button
+              title="Back"
+              color="#FF8100"
+              onPress={() => props.navigation.navigate('Step 3')}
+            />
+          </View>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </>

@@ -4,6 +4,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  sendPasswordResetEmail,
+  updateEmail
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { collection, setDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'; 
@@ -12,18 +14,7 @@ const auth = getAuth();
 
 const database = getFirestore();
 
-
-// onAuthStateChanged(auth, user => {
-//   if (user) {
-//     // User is signed in, see docs for a list of available properties
-//     // https://firebase.google.com/docs/reference/js/firebase.User
-//     const uid = user.uid;
-//     // ...
-//   } else {
-//     // User is signed out
-//     // ...
-//   }
-// });
+// USERS
 
 export const writeUserData = async (name, email, uid) => {
   try {
@@ -77,9 +68,29 @@ export const setDisplayName = async (displayName) => {
     });
     return displayName;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error(error.code, error.message);
   }
 }
+
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch(error) {
+    throw new Error(error.code, error.message);
+  }
+}
+
+export const updateEmailAPI = async (email) => {
+  const user = auth.currentUser;
+  try {
+    await updateEmail(user, email);
+    await writeUserData(user.displayName, email, user.uid);
+  } catch(error) {
+    throw new Error(error.code, error.message);
+  }
+}
+
+// ENTRIES
 
 export const addEntryAPI = async ({
     gratitudeList,

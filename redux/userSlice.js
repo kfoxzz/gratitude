@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI } from '../config/users';
+import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI, resetPassword, updateEmailAPI, setDisplayName } from '../config/users';
 import { consecutiveDates } from '../helperFunctions/consecutiveEntries';
 import { sortEntries } from '../helperFunctions/sortEntries';
+
+// USERS
 
 export const createUser = createAsyncThunk(
   'user/create',
@@ -21,8 +23,8 @@ export const signInUser = createAsyncThunk(
   'user/login',
   async (credentials, thunkAPI) => {
     try {
-      await thunkAPI.dispatch(userSlice.actions.loading(true));
       const userDetails = await signInUserAPI(credentials);
+      await thunkAPI.dispatch(userSlice.actions.loading(true));
       const fetchAllEntries = await thunkAPI.dispatch(fetchEntriesAsync(userDetails.uid));
       await thunkAPI.dispatch(userSlice.actions.loginError(null));
       await thunkAPI.dispatch(userSlice.actions.loading(false));
@@ -34,11 +36,51 @@ export const signInUser = createAsyncThunk(
   }
 );
 
+export const resetPasswordAsync = createAsyncThunk(
+  'user/resetPassword',
+  async (email, thunkAPI) => {
+    try {
+      await resetPassword(email);
+    } catch(error) {
+      console.log(error.code, error.message);
+    }
+  }
+);
+
+export const updateEmailAsync = createAsyncThunk(
+  'user/updateEmail',
+  async (email, thunkAPI) => {
+    try {
+      await updateEmailAPI(email);
+      await thunkAPI.dispatch(userSlice.actions.updateEmail(email));
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+)
+
+export const updateDisplayNameAsync = createAsyncThunk(
+  'user/updateName',
+  async (displayName, thunkAPI) => {
+    try {
+      const newName = await setDisplayName(displayName);
+      thunkAPI.dispatch(userSlice.actions.updateName(newName));
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+)
+
+// ENTRIES
+
 export const addEntryAsync = createAsyncThunk(
   'entry/add',
-  async (entryData, thunkAPI) => {
+  async (entryData, uid, thunkAPI) => {
     try {
       await addEntryAPI(entryData);
+      const entries = await thunkAPI.dispatch(fetchEntriesAsync(uid));
+      const dateArray = entries.map(entry => entry.date);
+      await thunkAPI.dispatch(calculateConsecutiveEntries(dateArray));
     } catch (error) {
       console.log(error.message);
     }
@@ -50,9 +92,6 @@ export const deleteEntryAsync = createAsyncThunk(
   async (entryId, uid, thunkAPI) => {
     try {
       await deleteEntryAPI(entryId);
-      const entries = await thunkAPI.dispatch(fetchEntriesAsync(uid));
-      const dateArray = entries.map(entry => entry.date);
-      await dispatch(calculateConsecutiveEntries(dateArray));
     } catch (error) {
       console.log(error.message);
     }
@@ -95,7 +134,6 @@ export const userSlice = createSlice({
       signedIn: false,
       loginError: null,
       consecutiveEntries: '',
-      totalEntries: '',
       loading: false,
     },
     entries: [],
@@ -107,9 +145,6 @@ export const userSlice = createSlice({
     updateEmail: (state, action) => {
       state.user.email = action.payload;
     },
-    remove: state => {
-      return state;
-    },
     signOut: state => {
       state.user.signedIn = false;
     },
@@ -118,9 +153,6 @@ export const userSlice = createSlice({
     },
     addEntry: (state, action) => {
       state.entries = action.payload;
-    },
-    totalEntries: (state) => {
-      state.user.totalEntries = state.entries.length;
     },
     consecutiveEntries: (state, action) => {
       state.user.consecutiveEntries = action.payload;
@@ -150,6 +182,13 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateName, updateEmail, remove, signOut, signInState, totalEntries } = userSlice.actions;
+export const {
+  updateName,
+  updateEmail,
+  remove,
+  signOut,
+  signInState,
+  loginError,
+} = userSlice.actions;
 
 export default userSlice.reducer;

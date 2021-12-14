@@ -23,6 +23,7 @@ function PreviousEntries(props) {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
+  
   const entries = useSelector(state => state.user.entries);
   const uid = useSelector(state => state.user.user.uid);
   

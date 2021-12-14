@@ -12,9 +12,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInUser } from '../redux/userSlice';
+import { signInUser, loginError } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native'; 
-import { defineStyles } from '../helperFunctions/defineStyles';
 
 function LoginError(props) {
   const loginError = useSelector(state => state.user.user.loginError);
@@ -80,11 +79,15 @@ function Login(props) {
   // const loading = true;
 
   const signIn = () => {
-    const credentials = {
-      email,
-      password,
-    };
-    dispatch(signInUser(credentials));
+    if (email && password) {
+      const credentials = {
+        email,
+        password,
+      };
+      dispatch(signInUser(credentials));
+    } else {
+      dispatch(loginError('Please enter both email and password.'));
+    }
   };
 
   if (loading) {
@@ -144,7 +147,7 @@ function Login(props) {
       <Button
         color="#FF8100"
         title="Forgot password"
-        onPress={() => console.log('Forgot password')}
+        onPress={() => props.navigation.navigate('Forgot Password')}
       />
     </KeyboardAvoidingView>
   );

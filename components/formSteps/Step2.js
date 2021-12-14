@@ -52,6 +52,7 @@ function Step2(props) {
       navigationButtons: {
         flex: 1,
         justifyContent: 'flex-end',
+        marginBottom: 50
       },
       button: {
         backgroundColor: '#FF8100',
@@ -151,19 +152,19 @@ function Step2(props) {
           </TouchableOpacity>
         </View>
         <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-        <View style={styles.navigationButtons}>
-          <TouchableOpacity onPress={handleSubmit}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Next</Text>
-            </View>
-          </TouchableOpacity>
-          <Button
-            title="Back"
-            color="#FF8100"
-            onPress={() => props.navigation.navigate('Step 1')}
-          />
-        </View>
       </ScrollView>
+      <View style={styles.navigationButtons}>
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
+        <Button
+          title="Back"
+          color="#FF8100"
+          onPress={() => props.navigation.navigate('Step 1')}
+        />
+      </View>
     </>
   );
 }

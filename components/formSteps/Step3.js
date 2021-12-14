@@ -57,6 +57,11 @@ function Step3(props) {
       alignSelf: 'flex-start',
       paddingLeft: 15,
     },
+    navigationButtons: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: 50,
+    },
   });
 
     const navigation = useNavigation();
@@ -113,19 +118,19 @@ function Step3(props) {
             value={goals}
           />
           <Text style={{ color: 'red', paddingHorizontal: 20 }}>{error}</Text>
-          <View>
-            <TouchableOpacity onPress={handleSubmit}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Next</Text>
-              </View>
-            </TouchableOpacity>
-            <Button
-              title="Back"
-              color="#FF8100"
-              onPress={() => props.navigation.navigate('Step 2')}
-            />
-          </View>
         </ScrollView>
+        <View style={styles.navigationButtons}>
+          <TouchableOpacity onPress={handleSubmit}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Next</Text>
+            </View>
+          </TouchableOpacity>
+          <Button
+            title="Back"
+            color="#FF8100"
+            onPress={() => props.navigation.navigate('Step 2')}
+          />
+        </View>
       </KeyboardAvoidingView>
     </>
   );

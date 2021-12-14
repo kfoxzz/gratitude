@@ -14,6 +14,7 @@ import SubmitForm from './formSteps/SubmitForm';
 import Entry from './Entry';
 import About from './About';
 import NewEntry from './NewEntry';
+import ForgotPassword from './ForgotPassword';
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -22,7 +23,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
-import { addEntryAsync } from '../redux/userSlice';
+import {
+  addEntryAsync,
+  fetchEntriesAsync,
+  calculateConsecutiveEntries,
+} from '../redux/userSlice';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -91,6 +96,11 @@ function MainNavigation() {
             component={Signup}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Forgot Password"
+            component={ForgotPassword}
+            options={{ headerShown: false }}
+          />
         </>
       )}
     </Stack.Navigator>
@@ -122,6 +132,7 @@ function Main(props) {
 function NewEntryNavigation(props) {
 
   const dispatch = useDispatch();
+  const uid = useSelector(state => state.user.user.uid);
   const entries = useSelector(state => state.user.entries);
 
   const [newEntry, setNewEntry] = useState({
@@ -143,7 +154,7 @@ function NewEntryNavigation(props) {
   }
 
   const submitEntry = async () => {
-    await dispatch(addEntryAsync(newEntry));
+    const addEntry = await dispatch(addEntryAsync(newEntry, uid));
   }
 
   const clearForm = () => {

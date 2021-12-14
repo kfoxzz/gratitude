@@ -65,10 +65,7 @@ function SubmitForm(props) {
   const handleSubmit = () => {
     props.submitEntry();
     props.clearForm();
-    props.navigation.reset({
-      index: 0,
-      routes: [{ name: 'My Entries' }],
-    });
+    props.navigation.navigate('My Entries');
   };
 
   const handleCancel = () => {

@@ -1,8 +1,12 @@
-import React from 'react';
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet, Button, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native';
+import EditEmailModal from './modals/EditEmailModal';
+import EmailUpdatedModal from './modals/EmailUpdatedModal';
+import EditNameModal from './modals/EditNameModal';
+import NameUpdatedModal from './modals/NameUpdatedModal';
 
 function Settings(props) {
 
@@ -25,28 +29,45 @@ function Settings(props) {
     subtitle: {
       fontSize: 18,
       paddingVertical: 8,
-      color: colors.text
+      color: colors.text,
     },
     info: {
       color: 'darkgray',
       fontSize: 18,
-      paddingBottom: 10,
+    },
+    editView: {
+      flexDirection: 'row',
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'space-between'
     },
   });
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
 
+  const [emailModalVisible, setEmailModalVisible] = useState(false);
+  const [namelModalVisible, setNameModalVisible] = useState(false);
+  const [emailUpdatedModal, setEmailUpdatedModal] = useState(false);
+  const [nameUpdatedModal, setNameUpdatedModal] = useState(false);
+
+
     return (
       <ScrollView style={{ backgroundColor: colors.background }}>
         <View style={{ padding: 20 }}>
           <Text style={styles.title}>Account Details</Text>
           <Text style={styles.subtitle}>Name</Text>
-          <Text style={styles.info}>{user.name}</Text>
+          <View style={styles.editView}>
+            <Text style={styles.info}>{user.name}</Text>
+            <Button title="Edit" onPress={() => setNameModalVisible(true)} />
+          </View>
+          <Text style={styles.subtitle}>Email</Text>
+          <View style={styles.editView}>
+            <Text style={styles.info}>{user.email}</Text>
+            {/* <Button title="Edit" onPress={() => setEmailModalVisible(true)} /> */}
+          </View>
           <Text style={styles.subtitle}>User ID</Text>
           <Text style={styles.info}>{user.uid}</Text>
-          <Text style={styles.subtitle}>Email</Text>
-          <Text style={styles.info}>{user.email}</Text>
         </View>
         <TouchableOpacity onPress={() => dispatch(signOut())}>
           <View style={styles.logOut}>
@@ -55,6 +76,26 @@ function Settings(props) {
             </Text>
           </View>
         </TouchableOpacity>
+        {/* <EditEmailModal
+          modalVisible={emailModalVisible}
+          hideModal={setEmailModalVisible}
+          updatedEmailModalVisible={emailUpdatedModal}
+          setUpdatedEmailModal={setEmailUpdatedModal}
+        />
+        <EmailUpdatedModal
+          modalVisible={emailUpdatedModal}
+          hideModal={setEmailUpdatedModal}
+        /> */}
+        <EditNameModal
+          modalVisible={namelModalVisible}
+          hideModal={setNameModalVisible}
+          updatedNameModalVisible={nameUpdatedModal}
+          setUpdatedNameModal={setNameUpdatedModal}
+        />
+        <NameUpdatedModal
+          modalVisible={nameUpdatedModal}
+          hideModal={setNameUpdatedModal}
+        />
       </ScrollView>
     );
 }

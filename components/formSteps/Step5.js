@@ -19,7 +19,7 @@ function Step5(props) {
   const styles = StyleSheet.create({
     background: {
       backgroundColor: colors.background,
-      height: 200,
+      height: 500
     },
     question: {
       fontSize: 32,
@@ -56,6 +56,11 @@ function Step5(props) {
     backButton: {
       alignSelf: 'flex-start',
       paddingLeft: 15,
+    },
+    navigationButtons: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      marginBottom: 50,
     },
   });
 
@@ -135,19 +140,19 @@ function Step5(props) {
           value={helpOthers}
         />
         <Text style={{ color: 'red', paddingHorizontal: 20 }}>{errorTwo}</Text>
-        <View>
-          <TouchableOpacity onPress={handleSubmit}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Next</Text>
-            </View>
-          </TouchableOpacity>
-          <Button
-            title="Back"
-            color="#FF8100"
-            onPress={() => props.navigation.navigate('Step 4')}
-          />
-        </View>
       </ScrollView>
+      <View style={styles.navigationButtons}>
+        <TouchableOpacity onPress={handleSubmit}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Next</Text>
+          </View>
+        </TouchableOpacity>
+        <Button
+          title="Back"
+          color="#FF8100"
+          onPress={() => props.navigation.navigate('Step 4')}
+        />
+      </View>
     </>
   );
 }
