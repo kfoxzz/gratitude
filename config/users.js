@@ -5,7 +5,9 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
   sendPasswordResetEmail,
-  updateEmail
+  updateEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { collection, setDoc, doc, query, where, getDocs, deleteDoc } from 'firebase/firestore'; 
@@ -87,6 +89,16 @@ export const updateEmailAPI = async (email) => {
     await writeUserData(user.displayName, email, user.uid);
   } catch(error) {
     throw new Error(error.code, error.message);
+  }
+}
+
+export const reauthenticateUser = async (email, password) => {
+  const user = auth.currentUser;
+  try {
+    const credential = await EmailAuthProvider.credential(email, password);
+    await reauthenticateWithCredential(user, credential);
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
 

@@ -15,6 +15,9 @@ import Entry from './Entry';
 import About from './About';
 import NewEntry from './NewEntry';
 import ForgotPassword from './ForgotPassword';
+import ChangeEmail from './ChangeEmail';
+import ChangeEmail2 from './ChangeEmail2';
+import ConfirmEmailChange from './ConfirmEmailChange';
 import {
   createDrawerNavigator,
   DrawerItemList,
@@ -124,6 +127,21 @@ function Main(props) {
         name="HomeNavigation"
         options={{ headerShown: false }}
         component={HomeNavigation}
+      />
+      <Stack.Screen
+        name="ChangeEmail"
+        options={{ headerShown: false }}
+        component={ChangeEmail}
+      />
+      <Stack.Screen
+        name="ChangeEmail2"
+        options={{ headerShown: false }}
+        component={ChangeEmail2}
+      />
+      <Stack.Screen
+        name="ConfirmEmailChange"
+        options={{ headerShown: false }}
+        component={ConfirmEmailChange}
       />
     </Stack.Navigator>
   );

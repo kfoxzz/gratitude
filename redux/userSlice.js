@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI, resetPassword, updateEmailAPI, setDisplayName } from '../config/users';
+import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI, resetPassword, updateEmailAPI, setDisplayName, reauthenticateUser } from '../config/users';
 import { consecutiveDates } from '../helperFunctions/consecutiveEntries';
 import { sortEntries } from '../helperFunctions/sortEntries';
 
@@ -43,6 +43,27 @@ export const resetPasswordAsync = createAsyncThunk(
       await resetPassword(email);
     } catch(error) {
       console.log(error.code, error.message);
+    }
+  }
+);
+
+export const reauthenticateUserAsync = createAsyncThunk(
+  'user/reauthenticate',
+  async ({email, password}, thunkAPI) => {
+    try {
+      await reauthenticateUser(email, password);
+      await thunkAPI.dispatch(
+        userSlice.actions.loginError(null)
+      );
+      await thunkAPI.dispatch(userSlice.actions.authenticated(true));
+    } catch (error) {
+      console.log(error.message);
+      thunkAPI.dispatch(
+        userSlice.actions.loginError(
+          'Password is incorrect'
+        )
+      );
+      thunkAPI.dispatch(userSlice.actions.authenticated(false));
     }
   }
 );
@@ -135,6 +156,7 @@ export const userSlice = createSlice({
       loginError: null,
       consecutiveEntries: '',
       loading: false,
+      authenticated: false
     },
     entries: [],
   },
@@ -157,12 +179,15 @@ export const userSlice = createSlice({
     consecutiveEntries: (state, action) => {
       state.user.consecutiveEntries = action.payload;
     },
-    loginError:(state, action) => {
+    loginError: (state, action) => {
       state.user.loginError = action.payload;
     },
     loading: (state, action) => {
       state.user.loading = action.payload;
-    }
+    },
+    authenticated: (state, action) => {
+      state.user.authenticated = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -189,6 +214,7 @@ export const {
   signOut,
   signInState,
   loginError,
+  authenticated
 } = userSlice.actions;
 
 export default userSlice.reducer;

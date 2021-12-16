@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet, Button, Modal } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native';
-import EditEmailModal from './modals/EditEmailModal';
-import EmailUpdatedModal from './modals/EmailUpdatedModal';
 import EditNameModal from './modals/EditNameModal';
 import NameUpdatedModal from './modals/NameUpdatedModal';
+import { useNavigation } from '@react-navigation/native';
 
 function Settings(props) {
+
+  const navigation = useNavigation();
 
   const { colors } = useTheme();
 
@@ -28,7 +29,7 @@ function Settings(props) {
     },
     subtitle: {
       fontSize: 18,
-      paddingVertical: 8,
+      paddingTop: 8,
       color: colors.text,
     },
     info: {
@@ -46,9 +47,7 @@ function Settings(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
 
-  const [emailModalVisible, setEmailModalVisible] = useState(false);
   const [namelModalVisible, setNameModalVisible] = useState(false);
-  const [emailUpdatedModal, setEmailUpdatedModal] = useState(false);
   const [nameUpdatedModal, setNameUpdatedModal] = useState(false);
 
 
@@ -64,7 +63,10 @@ function Settings(props) {
           <Text style={styles.subtitle}>Email</Text>
           <View style={styles.editView}>
             <Text style={styles.info}>{user.email}</Text>
-            {/* <Button title="Edit" onPress={() => setEmailModalVisible(true)} /> */}
+            <Button
+              title="Edit"
+              onPress={() => navigation.navigate('ChangeEmail')}
+            />
           </View>
           <Text style={styles.subtitle}>User ID</Text>
           <Text style={styles.info}>{user.uid}</Text>
@@ -76,16 +78,6 @@ function Settings(props) {
             </Text>
           </View>
         </TouchableOpacity>
-        {/* <EditEmailModal
-          modalVisible={emailModalVisible}
-          hideModal={setEmailModalVisible}
-          updatedEmailModalVisible={emailUpdatedModal}
-          setUpdatedEmailModal={setEmailUpdatedModal}
-        />
-        <EmailUpdatedModal
-          modalVisible={emailUpdatedModal}
-          hideModal={setEmailUpdatedModal}
-        /> */}
         <EditNameModal
           modalVisible={namelModalVisible}
           hideModal={setNameModalVisible}
