@@ -8,7 +8,6 @@ import NameUpdatedModal from './modals/NameUpdatedModal';
 import { useNavigation } from '@react-navigation/native';
 
 function Settings(props) {
-
   const navigation = useNavigation();
 
   const { colors } = useTheme();
@@ -19,6 +18,7 @@ function Settings(props) {
       borderRadius: 10,
       padding: 10,
       margin: 10,
+      marginBottom: 40,
     },
     title: {
       fontSize: 24,
@@ -40,7 +40,16 @@ function Settings(props) {
       flexDirection: 'row',
       flex: 1,
       alignItems: 'center',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+    },
+    resetPassword: {
+      color: '#007AFF',
+      fontSize: 18,
+      paddingTop: 15,
+    },
+    divider: {
+      borderBottomWidth: 1,
+      borderBottomColor: 'darkgray',
     },
   });
 
@@ -50,33 +59,24 @@ function Settings(props) {
   const [namelModalVisible, setNameModalVisible] = useState(false);
   const [nameUpdatedModal, setNameUpdatedModal] = useState(false);
 
-
-    return (
-      <ScrollView style={{ backgroundColor: colors.background }}>
-        <View style={{ padding: 20 }}>
-          <Text style={styles.title}>Account Details</Text>
-          <Text style={styles.subtitle}>Name</Text>
-          <View style={styles.editView}>
-            <Text style={styles.info}>{user.name}</Text>
-            <Button title="Edit" onPress={() => setNameModalVisible(true)} />
-          </View>
-          <Text style={styles.subtitle}>Email</Text>
-          <View style={styles.editView}>
-            <Text style={styles.info}>{user.email}</Text>
-            <Button
-              title="Edit"
-              onPress={() => navigation.navigate('ChangeEmail')}
-            />
-          </View>
-          <Text style={styles.subtitle}>User ID</Text>
-          <Text style={styles.info}>{user.uid}</Text>
+  return (
+    <>
+      <ScrollView style={{ padding: 20 }}>
+        <Text style={styles.title}>Account Details</Text>
+        <Text style={styles.subtitle}>Name</Text>
+        <View style={styles.editView}>
+          <Text style={styles.info}>{user.name}</Text>
+          <Button title="Edit" onPress={() => setNameModalVisible(true)} />
         </View>
-        <TouchableOpacity onPress={() => dispatch(signOut())}>
-          <View style={styles.logOut}>
-            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>
-              Log out
-            </Text>
-          </View>
+        <View style={styles.divider}></View>
+        <Text style={styles.subtitle}>Email</Text>
+        <View style={styles.editView}>
+          <Text style={styles.info}>{user.email}</Text>
+          <Button title="Edit" onPress={() => navigation.navigate('ChangeEmail')} />
+        </View>
+        <View style={styles.divider}></View>
+        <TouchableOpacity>
+          <Text style={styles.resetPassword}>Change password</Text>
         </TouchableOpacity>
         <EditNameModal
           modalVisible={namelModalVisible}
@@ -84,12 +84,17 @@ function Settings(props) {
           updatedNameModalVisible={nameUpdatedModal}
           setUpdatedNameModal={setNameUpdatedModal}
         />
-        <NameUpdatedModal
-          modalVisible={nameUpdatedModal}
-          hideModal={setNameUpdatedModal}
-        />
+        <NameUpdatedModal modalVisible={nameUpdatedModal} hideModal={setNameUpdatedModal} />
       </ScrollView>
-    );
+      <View>
+        <TouchableOpacity onPress={() => dispatch(signOut())}>
+          <View style={styles.logOut}>
+            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>Log out</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </>
+  );
 }
 
 export default Settings;

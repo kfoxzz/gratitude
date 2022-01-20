@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Button, StatusBar, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { Header } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -48,6 +40,7 @@ function ChangeEmail2(props) {
       padding: 10,
       margin: 10,
       marginHorizontal: 18,
+      marginBottom: 40,
     },
     backButton: {
       alignSelf: 'flex-start',
@@ -72,11 +65,11 @@ function ChangeEmail2(props) {
 
   const handleConfirm = async () => {
     if (!email) {
-        setError('Please enter your new email')
+      setError('Please enter your new email');
     } else if (email != confirmEmail) {
-        setError('Emails do not match');
+      setError('Emails do not match');
     } else if (!emailRegex.test(email)) {
-        setError('Must be a valid email address')
+      setError('Must be a valid email address');
     } else if (emailRegex.test(email) && email === confirmEmail) {
       setError('');
       await dispatch(updateEmailAsync(email));
@@ -86,19 +79,13 @@ function ChangeEmail2(props) {
 
   return (
     <>
-      <Header
-        backgroundColor={colors.background}
-        containerStyle={{ borderBottomColor: colors.background }}>
+      <Header backgroundColor={colors.background} containerStyle={{ borderBottomColor: colors.background }}>
         <View style={styles.backButton}>
-          <Button
-            title="Cancel"
-            onPress={() => props.navigation.navigate('Settings')}
-            color="#FF8100"
-          />
+          <Button title="Cancel" onPress={() => props.navigation.navigate('Settings')} color="#FF8100" />
         </View>
       </Header>
       <StatusBar barStyle={colors.statusBar} translucent={true} />
-      <View style={styles.viewContainer}>
+      <ScrollView style={styles.viewContainer}>
         <Text style={styles.text}>Please enter your new email address.</Text>
         <TextInput
           placeholder="New Email"
@@ -115,13 +102,11 @@ function ChangeEmail2(props) {
           placeholderTextColor={colors.inputPlaceholder}
         />
         <Text style={{ color: 'red' }}>{error}</Text>
-      </View>
+      </ScrollView>
       <View>
         <TouchableOpacity onPress={handleConfirm}>
           <View style={styles.confirmButton}>
-            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>
-              Confirm
-            </Text>
+            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>Confirm</Text>
           </View>
         </TouchableOpacity>
       </View>

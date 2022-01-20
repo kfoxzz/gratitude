@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, StatusBar, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Button, StatusBar, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { Header } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,14 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 import { reauthenticateUserAsync, authenticated } from '../redux/userSlice';
 
 function ChangeEmail(props) {
-
   const dispatch = useDispatch();
   const { colors } = useTheme();
   const navigation = useNavigation();
 
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  
+
   const loginError = useSelector(state => state.user.user.loginError);
   const userAuthenticated = useSelector(state => state.user.user.authenticated);
 
@@ -43,6 +42,7 @@ function ChangeEmail(props) {
       padding: 10,
       margin: 10,
       marginHorizontal: 18,
+      marginBottom: 40,
     },
     backButton: {
       alignSelf: 'flex-start',
@@ -61,19 +61,21 @@ function ChangeEmail(props) {
     text: {
       color: colors.text,
       paddingBottom: 20,
-      fontSize: 18
+      fontSize: 18,
     },
   });
 
   const handleConfirm = async () => {
     if (!password) {
-      setError('Please enter your password')
+      setError('Please enter your password');
     } else {
       setError('');
-      await dispatch(reauthenticateUserAsync({
-        email,
-        password
-      }));
+      await dispatch(
+        reauthenticateUserAsync({
+          email,
+          password,
+        })
+      );
       if (userAuthenticated) {
         await dispatch(authenticated(false));
         navigation.navigate('ChangeEmail2');
@@ -81,23 +83,17 @@ function ChangeEmail(props) {
         console.log('Error logging in');
       }
     }
-  }
+  };
 
   return (
     <>
-      <Header
-        backgroundColor={colors.background}
-        containerStyle={{ borderBottomColor: colors.background }}>
+      <Header backgroundColor={colors.background} containerStyle={{ borderBottomColor: colors.background }}>
         <View style={styles.backButton}>
-          <Button
-            title="Cancel"
-            onPress={() => props.navigation.navigate('Settings')}
-            color="#FF8100"
-          />
+          <Button title="Cancel" onPress={() => props.navigation.navigate('Settings')} color="#FF8100" />
         </View>
       </Header>
       <StatusBar barStyle={colors.statusBar} translucent={true} />
-      <View style={styles.viewContainer}>
+      <ScrollView style={styles.viewContainer}>
         <Text style={styles.text}>Please enter your password to continue.</Text>
         <Text style={{ fontWeight: 'bold' }}>{email}</Text>
         <TextInput
@@ -110,13 +106,11 @@ function ChangeEmail(props) {
         />
         <Text style={{ color: 'red' }}>{error}</Text>
         <Text style={{ color: 'red' }}>{loginError}</Text>
-      </View>
+      </ScrollView>
       <View>
         <TouchableOpacity onPress={handleConfirm}>
           <View style={styles.confirmButton}>
-            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>
-              Continue
-            </Text>
+            <Text style={{ fontSize: 18, textAlign: 'center', color: 'white' }}>Continue</Text>
           </View>
         </TouchableOpacity>
       </View>
