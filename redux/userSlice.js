@@ -1,5 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createUserAPI, signInUserAPI, addEntryAPI, fetchEntriesAPI, deleteEntryAPI, resetPassword, updateEmailAPI, setDisplayName, reauthenticateUser } from '../config/users';
+import {
+  createUserAPI,
+  signInUserAPI,
+  addEntryAPI,
+  fetchEntriesAPI,
+  deleteEntryAPI,
+  resetPassword,
+  updateEmailAPI,
+  setDisplayName,
+  reauthenticateUser,
+} from '../config/users';
 import { consecutiveDates } from '../helperFunctions/consecutiveEntries';
 import { sortEntries } from '../helperFunctions/sortEntries';
 
@@ -25,13 +35,19 @@ export const signInUser = createAsyncThunk(
     try {
       const userDetails = await signInUserAPI(credentials);
       await thunkAPI.dispatch(userSlice.actions.loading(true));
-      const fetchAllEntries = await thunkAPI.dispatch(fetchEntriesAsync(userDetails.uid));
+      const fetchAllEntries = await thunkAPI.dispatch(
+        fetchEntriesAsync(userDetails.uid)
+      );
       await thunkAPI.dispatch(userSlice.actions.loginError(null));
       await thunkAPI.dispatch(userSlice.actions.loading(false));
       return userDetails;
     } catch (error) {
       console.log(error.message);
-      thunkAPI.dispatch(userSlice.actions.loginError('No account found with email/password combination.'));
+      thunkAPI.dispatch(
+        userSlice.actions.loginError(
+          'No account found with email/password combination.'
+        )
+      );
     }
   }
 );
@@ -41,7 +57,7 @@ export const resetPasswordAsync = createAsyncThunk(
   async (email, thunkAPI) => {
     try {
       await resetPassword(email);
-    } catch(error) {
+    } catch (error) {
       console.log(error.code, error.message);
     }
   }
@@ -49,20 +65,14 @@ export const resetPasswordAsync = createAsyncThunk(
 
 export const reauthenticateUserAsync = createAsyncThunk(
   'user/reauthenticate',
-  async ({email, password}, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
       await reauthenticateUser(email, password);
-      await thunkAPI.dispatch(
-        userSlice.actions.loginError(null)
-      );
+      await thunkAPI.dispatch(userSlice.actions.loginError(null));
       await thunkAPI.dispatch(userSlice.actions.authenticated(true));
     } catch (error) {
       console.log(error.message);
-      thunkAPI.dispatch(
-        userSlice.actions.loginError(
-          'Password is incorrect'
-        )
-      );
+      thunkAPI.dispatch(userSlice.actions.loginError('Password is incorrect'));
       thunkAPI.dispatch(userSlice.actions.authenticated(false));
     }
   }
@@ -74,11 +84,11 @@ export const updateEmailAsync = createAsyncThunk(
     try {
       await updateEmailAPI(email);
       await thunkAPI.dispatch(userSlice.actions.updateEmail(email));
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
     }
   }
-)
+);
 
 export const updateDisplayNameAsync = createAsyncThunk(
   'user/updateName',
@@ -86,52 +96,60 @@ export const updateDisplayNameAsync = createAsyncThunk(
     try {
       const newName = await setDisplayName(displayName);
       thunkAPI.dispatch(userSlice.actions.updateName(newName));
-    } catch(error) {
+    } catch (error) {
       console.log(error.message);
     }
   }
-)
+);
 
 // ENTRIES
 
 export const addEntryAsync = createAsyncThunk(
   'entry/add',
-  async (entryData, uid, thunkAPI) => {
+  async (entryData, thunkAPI) => {
     try {
       await addEntryAPI(entryData);
-      const entries = await thunkAPI.dispatch(fetchEntriesAsync(uid));
-      const dateArray = entries.map(entry => entry.date);
-      await thunkAPI.dispatch(calculateConsecutiveEntries(dateArray));
+      const entries = await (
+        await thunkAPI.dispatch(fetchEntriesAsync(entryData.uid))
+      ).payload;
+      const dateArray = await entries.map(entry => entry.date);
+      const consecEntries = await thunkAPI.dispatch(
+        calculateConsecutiveEntries(dateArray)
+      );
     } catch (error) {
       console.log(error.message);
     }
   }
-)
+);
 
 export const deleteEntryAsync = createAsyncThunk(
   'entry/delete',
-  async (entryId, uid, thunkAPI) => {
+  async ({ entryId, uid }, thunkAPI) => {
     try {
       await deleteEntryAPI(entryId);
     } catch (error) {
       console.log(error.message);
     }
   }
-)
+);
 
 export const fetchEntriesAsync = createAsyncThunk(
   'entries/fetch',
   async (uid, thunkAPI) => {
     try {
       const entries = await fetchEntriesAPI(uid);
-      const sortedEntries = sortEntries(entries);
-      await thunkAPI.dispatch(userSlice.actions.addEntry(sortedEntries));
+      const sortedEntries = await sortEntries(entries);
+      const updateSortedEntries = await thunkAPI.dispatch(
+        userSlice.actions.addEntry(sortedEntries)
+      );
+      const dateArray = await sortedEntries.map(entry => entry.date);
+      thunkAPI.dispatch(calculateConsecutiveEntries(dateArray));
       return sortedEntries;
     } catch (error) {
       console.log(error.message);
     }
   }
-)
+);
 
 export const calculateConsecutiveEntries = createAsyncThunk(
   'entries/total',
@@ -139,11 +157,11 @@ export const calculateConsecutiveEntries = createAsyncThunk(
     try {
       const entries = await consecutiveDates(dateArray);
       thunkAPI.dispatch(userSlice.actions.consecutiveEntries(entries));
-    } catch(error) {
-      console.log('Error:', error.message)
+    } catch (error) {
+      console.log('Error:', error.message);
     }
   }
-)
+);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -156,7 +174,7 @@ export const userSlice = createSlice({
       loginError: null,
       consecutiveEntries: '',
       loading: false,
-      authenticated: false
+      authenticated: false,
     },
     entries: [],
   },
@@ -214,7 +232,7 @@ export const {
   signOut,
   signInState,
   loginError,
-  authenticated
+  authenticated,
 } = userSlice.actions;
 
 export default userSlice.reducer;

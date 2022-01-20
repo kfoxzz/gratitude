@@ -76,7 +76,6 @@ function HomeNavigation() {
 }
 
 function MainNavigation() {
-
   const signedIn = useSelector(state => state.user.user.signedIn);
 
   return (
@@ -148,7 +147,6 @@ function Main(props) {
 }
 
 function NewEntryNavigation(props) {
-
   const dispatch = useDispatch();
   const uid = useSelector(state => state.user.user.uid);
   const entries = useSelector(state => state.user.entries);
@@ -164,16 +162,20 @@ function NewEntryNavigation(props) {
     lookingForwardTo: '',
     date: '',
     id: '',
-    uid: ''
+    uid: '',
   });
 
-  const updateEntry = (data) => {
-    setNewEntry(data); 
-  }
+  const updateEntry = data => {
+    setNewEntry(data);
+  };
 
   const submitEntry = async () => {
-    const addEntry = await dispatch(addEntryAsync(newEntry, uid));
-  }
+    try {
+      const addEntry = await dispatch(addEntryAsync(newEntry));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const clearForm = () => {
     setNewEntry({
@@ -189,11 +191,10 @@ function NewEntryNavigation(props) {
       id: '',
       uid: '',
     });
-  }
+  };
 
   return (
-    <Stack.Navigator
-      initialRouteName="Step 1">
+    <Stack.Navigator initialRouteName="Step 1">
       <Stack.Screen name="Step 1" options={{ headerShown: false }}>
         {props => (
           <Step1
@@ -279,7 +280,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flex: 1,
     margin: 10,
-  }
+  },
 });
 
 export default MainNavigation;

@@ -35,8 +35,6 @@ export function Home(props) {
 
   useEffect(async () => {
     await dispatch(fetchEntriesAsync(uid));
-    const dateArray = entries.map(entry => entry.date);
-    await dispatch(calculateConsecutiveEntries(dateArray));
   }, []);
 
   const onShareTotal = async () => {
@@ -59,107 +57,125 @@ export function Home(props) {
     }
   };
 
-    return (
-      <Animatable.View animation="fadeIn" iterationCount={1} duration={2000}>
-        <StatusBar barStyle={colors.statusBar} translucent={true} />
-        <ScrollView
-          style={(styles.background, { backgroundColor: colors.background })}>
-          <Swiper
-            showsPagination={true}
-            activeDotStyle={{ backgroundColor: '#FF8100' }}
-            style={styles.swiper}>
-            <View style={styles.slides}>
-              <Image
-                source={require('../assets/mandala.png')}
-                style={styles.image}
-              />
-              <Text style={styles.title}>Hello {userName}!</Text>
-              <Text style={styles.subtitle}>
-                Swipe to see how you are practicing gratitude in your life.
-              </Text>
-              <FAB
-                title="Submit a New Entry"
-                color={colors.shareButton}
-                containerStyle={{ marginBottom: 10 }}
-                titleStyle={{
-                  color: colors.shareButtonText,
-                  fontWeight: 'bold',
-                }}
-                onPress={() => navigation.navigate('NewEntryStack')}
-              />
+  const onRefresh = async () => {
+    try {
+      await dispatch(fetchEntriesAsync(uid));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <Animatable.View animation="fadeIn" iterationCount={1} duration={2000}>
+      <StatusBar barStyle={colors.statusBar} translucent={true} />
+      <ScrollView
+        style={(styles.background, { backgroundColor: colors.background })}>
+        <Swiper
+          showsPagination={true}
+          activeDotStyle={{ backgroundColor: '#FF8100' }}
+          style={styles.swiper}>
+          <View style={styles.slides}>
+            <Image
+              source={require('../assets/mandala.png')}
+              style={styles.image}
+            />
+            <Text style={styles.title}>Hello {userName}!</Text>
+            <Text style={styles.subtitle}>
+              Swipe to see how you are practicing gratitude in your life.
+            </Text>
+            <FAB
+              title="Submit a New Entry"
+              color={colors.shareButton}
+              containerStyle={{ marginBottom: 10 }}
+              titleStyle={{
+                color: colors.shareButtonText,
+                fontWeight: 'bold',
+              }}
+              onPress={() => navigation.navigate('NewEntryStack')}
+            />
+          </View>
+          <View style={styles.slides}>
+            <Text style={styles.cardTitle}>Daily Reprieve</Text>
+            <View
+              style={
+                (styles.cardLight,
+                {
+                  backgroundColor: colors.background,
+                  borderColor: colors.background,
+                  padding: 20,
+                  paddingBottom: 75,
+                })
+              }>
+              <LinearGradient
+                style={styles.linearView}
+                colors={['#FF8100', '#FFAD5B']}>
+                <Text style={styles.lightCounterText}>
+                  You have recorded your gratitude every day for{' '}
+                </Text>
+                <Text style={styles.lightCounter}>
+                  {consecEntries ? consecEntries : '0'} days
+                </Text>
+              </LinearGradient>
             </View>
-            <View style={styles.slides}>
-              <Text style={styles.cardTitle}>Daily Reprieve</Text>
-              <View
-                style={
-                  (styles.cardLight,
-                  {
-                    backgroundColor: colors.background,
-                    borderColor: colors.background,
-                    padding: 20,
-                    paddingBottom: 75,
-                  })
-                }>
-                <LinearGradient
-                  style={styles.linearView}
-                  colors={['#FF8100', '#FFAD5B']}>
-                  <Text style={styles.lightCounterText}>
-                    You have recorded your gratitude every day for{' '}
-                  </Text>
-                  <Text style={styles.lightCounter}>
-                    {consecEntries ? consecEntries : '0'} days
-                  </Text>
-                </LinearGradient>
-              </View>
-              <FAB
-                title="Share"
-                color={colors.shareButton}
-                containerStyle={{ marginBottom: 10 }}
-                titleStyle={{
-                  color: colors.shareButtonText,
-                  fontWeight: 'bold',
-                }}
-                onPress={onShareConsec}
-              />
+            {/* <FAB
+              title="Refresh"
+              color={colors.shareButton}
+              containerStyle={{ marginBottom: 10 }}
+              titleStyle={{
+                color: colors.shareButtonText,
+                fontWeight: 'bold',
+              }}
+              onPress={onRefresh}
+            /> */}
+            <FAB
+              title="Share"
+              color={colors.shareButton}
+              containerStyle={{ marginBottom: 10 }}
+              titleStyle={{
+                color: colors.shareButtonText,
+                fontWeight: 'bold',
+              }}
+              onPress={onShareConsec}
+            />
+          </View>
+          <View style={styles.slides}>
+            <Text style={styles.cardTitle}>Total Logs</Text>
+            <View
+              style={
+                (styles.cardLight,
+                {
+                  backgroundColor: colors.background,
+                  borderColor: colors.background,
+                  padding: 20,
+                  paddingBottom: 75,
+                })
+              }>
+              <LinearGradient
+                style={styles.linearView}
+                colors={['#FF8100', '#FFAD5B']}>
+                <Text style={styles.lightCounterText}>
+                  You have logged what you are grateful for
+                </Text>
+                <Text style={styles.lightCounter}>
+                  {entries ? entries.length : '0'} times
+                </Text>
+              </LinearGradient>
             </View>
-            <View style={styles.slides}>
-              <Text style={styles.cardTitle}>Total Logs</Text>
-              <View
-                style={
-                  (styles.cardLight,
-                  {
-                    backgroundColor: colors.background,
-                    borderColor: colors.background,
-                    padding: 20,
-                    paddingBottom: 75,
-                  })
-                }>
-                <LinearGradient
-                  style={styles.linearView}
-                  colors={['#FF8100', '#FFAD5B']}>
-                  <Text style={styles.lightCounterText}>
-                    You have logged what you are grateful for
-                  </Text>
-                  <Text style={styles.lightCounter}>
-                    {entries ? entries.length : '0'} times
-                  </Text>
-                </LinearGradient>
-              </View>
-              <FAB
-                title="Share"
-                color={colors.shareButton}
-                containerStyle={{ marginBottom: 10 }}
-                titleStyle={{
-                  color: colors.shareButtonText,
-                  fontWeight: 'bold',
-                }}
-                onPress={onShareTotal}
-              />
-            </View>
-          </Swiper>
-        </ScrollView>
-      </Animatable.View>
-    );
+            <FAB
+              title="Share"
+              color={colors.shareButton}
+              containerStyle={{ marginBottom: 10 }}
+              titleStyle={{
+                color: colors.shareButtonText,
+                fontWeight: 'bold',
+              }}
+              onPress={onShareTotal}
+            />
+          </View>
+        </Swiper>
+      </ScrollView>
+    </Animatable.View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -202,7 +218,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingBottom: 100,
     borderWidth: 1,
-
   },
   linearView: {
     borderRadius: 20,

@@ -8,7 +8,7 @@ import {
   Button,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import { useTheme, useNavigation } from '@react-navigation/native';
@@ -20,7 +20,7 @@ function SubmitForm(props) {
     background: {
       backgroundColor: colors.background,
       padding: 20,
-      paddingTop: 0
+      paddingTop: 0,
     },
     button: {
       backgroundColor: '#FF8100',
@@ -47,24 +47,24 @@ function SubmitForm(props) {
     },
     backButton: {
       alignSelf: 'flex-start',
-      paddingBottom: 5
+      paddingBottom: 5,
     },
     title: {
       color: colors.text,
       paddingBottom: 10,
       textAlign: 'center',
       fontSize: 20,
-      fontWeight: 'bold'
-    }
+      fontWeight: 'bold',
+    },
   });
 
   const navigation = useNavigation();
 
   const { newEntry } = props;
 
-  const handleSubmit = () => {
-    props.submitEntry();
-    props.clearForm();
+  const handleSubmit = async () => {
+    await props.submitEntry();
+    await props.clearForm();
     props.navigation.navigate('My Entries');
   };
 
@@ -76,7 +76,7 @@ function SubmitForm(props) {
       },
       { text: 'Yes', onPress: () => navigation.navigate('New Entry') },
     ]);
-  }
+  };
 
   return (
     <>

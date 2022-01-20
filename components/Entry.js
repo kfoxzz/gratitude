@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, Button, Alert, SafeAreaView, Share } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Button,
+  Alert,
+  SafeAreaView,
+  Share,
+} from 'react-native';
 import { SpeedDial } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteEntryAsync, fetchEntriesAsync } from '../redux/userSlice';
 import { calculateConsecutiveEntries } from '../redux/userSlice';
 import { useTheme } from '@react-navigation/native';
 
-
 function Entry(props) {
-
   const { colors } = useTheme();
 
   const styles = StyleSheet.create({
@@ -18,7 +25,7 @@ function Entry(props) {
     subtitle: {
       fontSize: 18,
       paddingVertical: 8,
-      color: colors.text
+      color: colors.text,
     },
     info: {
       color: colors.subtext,
@@ -31,7 +38,7 @@ function Entry(props) {
 
   const entries = useSelector(state => state.user.entries);
   const uid = useSelector(state => state.user.user.uid);
-  const [ open, setOpen ] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { entryId } = props.route.params;
   const entry = entries.filter(entry => entryId === entry.id)[0];
@@ -46,7 +53,9 @@ function Entry(props) {
         What goals am I working toward today? ${entry.goals}
         I love myself because: ${entry.selflove}
         What can I do to show self-love today? ${entry.selfloveAction}
-        What do I love about the people in my life today? ${entry.loveAboutPeople}
+        What do I love about the people in my life today? ${
+          entry.loveAboutPeople
+        }
         What can I do to help another person today? ${entry.helpOthers}
         What am I looking forward to today? ${entry.lookingForwardTo}
         `,
@@ -55,7 +64,6 @@ function Entry(props) {
       alert(error.message);
     }
   };
-
 
   const handleDelete = () => {
     Alert.alert(
@@ -70,15 +78,15 @@ function Entry(props) {
         { text: 'OK', onPress: () => deleteEntry() },
       ]
     );
-  }
+  };
 
   const deleteEntry = async () => {
     props.navigation.navigate('My Entries');
-    await dispatch(deleteEntryAsync(entryId, uid));
+    await dispatch(deleteEntryAsync({ entryId, uid }));
     await dispatch(fetchEntriesAsync(uid));
     const dateArray = entries.map(entry => entry.date);
     await dispatch(calculateConsecutiveEntries(dateArray));
-  }
+  };
 
   return (
     <>

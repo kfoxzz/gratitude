@@ -12,15 +12,13 @@ import { Appearance } from 'react-native';
 Appearance.getColorScheme();
 
 export default function App() {
-
   const scheme = useColorScheme();
 
   return (
     <Provider store={store}>
       <AppearanceProvider>
         <SafeAreaProvider>
-          <NavigationContainer
-            theme={LightTheme}>
+          <NavigationContainer theme={LightTheme}>
             <Main />
           </NavigationContainer>
         </SafeAreaProvider>
